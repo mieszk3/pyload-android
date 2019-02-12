@@ -16,12 +16,12 @@ import java.util.Map;
 
 public class SeparatedListAdapter extends BaseAdapter {
 
-    public final static int TYPE_SECTION_HEADER = 0;
-    public final Map<String, Adapter> sections = new LinkedHashMap<String, Adapter>();
-    public final ArrayAdapter<String> headers;
+    private final static int TYPE_SECTION_HEADER = 0;
+    private final Map<String, Adapter> sections = new LinkedHashMap<>();
+    private final ArrayAdapter<String> headers;
 
     public SeparatedListAdapter(Context context) {
-        headers = new ArrayAdapter<String>(context, R.layout.list_header);
+        headers = new ArrayAdapter<>(context, R.layout.list_header);
     }
 
     public void addSection(String section, Adapter adapter) {
@@ -75,10 +75,6 @@ public class SeparatedListAdapter extends BaseAdapter {
             type += adapter.getViewTypeCount();
         }
         return -1;
-    }
-
-    public boolean areAllItemsSelectable() {
-        return false;
     }
 
     public boolean isEnabled(int position) {

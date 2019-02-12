@@ -92,12 +92,10 @@ public abstract class FragmentTabsPager extends AppCompatActivity {
         private int selected = 0;
 
         static final class TabInfo {
-            private final String tag;
             private final Class<?> clss;
             private final Bundle args;
 
-            TabInfo(String _tag, Class<?> _class, Bundle _args) {
-                tag = _tag;
+            TabInfo(Class<?> _class, Bundle _args) {
                 clss = _class;
                 args = _args;
             }
@@ -106,7 +104,7 @@ public abstract class FragmentTabsPager extends AppCompatActivity {
         static class DummyTabFactory implements TabHost.TabContentFactory {
             private final Context mContext;
 
-            public DummyTabFactory(Context context) {
+            DummyTabFactory(Context context) {
                 mContext = context;
             }
 
@@ -119,8 +117,8 @@ public abstract class FragmentTabsPager extends AppCompatActivity {
             }
         }
 
-        public TabsAdapter(@NonNull FragmentActivity activity, TabHost tabHost,
-                           ViewPager pager) {
+        TabsAdapter(@NonNull FragmentActivity activity, TabHost tabHost,
+                    ViewPager pager) {
             super(activity.getSupportFragmentManager());
             mContext = activity;
             mTabHost = tabHost;
@@ -132,9 +130,7 @@ public abstract class FragmentTabsPager extends AppCompatActivity {
 
         public void addTab(TabHost.TabSpec tabSpec, Class<?> clss, Bundle args) {
             tabSpec.setContent(new DummyTabFactory(mContext));
-            String tag = tabSpec.getTag();
-
-            TabInfo info = new TabInfo(tag, clss, args);
+            TabInfo info = new TabInfo(clss, args);
             mTabs.add(info);
             mTabHost.addTab(tabSpec);
             notifyDataSetChanged();

@@ -48,23 +48,6 @@ public class OverviewFragment extends ListFragment implements
     private List<DownloadInfo> downloads;
     private ServerStatus status;
     private CaptchaTask captcha;
-    private final Runnable runUpdate = new Runnable() {
-
-        public void run() {
-            try {
-                client = app.getClient();
-                downloads = client.statusDownloads();
-                status = client.statusServer();
-                if (client.isCaptchaWaiting()) {
-                    Log.d("pyLoad", "Captcha available");
-                    captcha = client.getCaptchaTask(false);
-                    Log.d("pyload", captcha.resultType);
-                }
-            } catch (TException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    };
     private int lastCaptcha = -1;
     private int interval = 5;
     private boolean update = false;
@@ -245,7 +228,20 @@ public class OverviewFragment extends ListFragment implements
         if (!app.hasConnection())
             return;
 
-        GuiTask task = new GuiTask(runUpdate, mUpdateResults);
+        GuiTask task = new GuiTask(() -> {
+            try {
+                client = app.getClient();
+                downloads = client.statusDownloads();
+                status = client.statusServer();
+                if (client.isCaptchaWaiting()) {
+                    Log.d("pyLoad", "Captcha available");
+                    captcha = client.getCaptchaTask(false);
+                    Log.d("pyload", captcha.resultType);
+                }
+            } catch (TException e) {
+                throw new RuntimeException(e);
+            }
+        }, mUpdateResults);
         task.setCritical(cancelUpdate);
 
         app.addTask(task);

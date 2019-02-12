@@ -40,9 +40,9 @@ public class ConfigSectionFragment extends Fragment {
     private pyLoadApp app;
     private ConfigSection section;
     private String type;
-    private HashMap<String, ConfigItemView> items = new HashMap<String, ConfigItemView>();
+    private HashMap<String, ConfigItemView> items = new HashMap<>();
 
-    public ConfigSectionFragment(Runnable mRefresh) {
+    ConfigSectionFragment(Runnable mRefresh) {
         this.mRefresh = mRefresh;
     }
 
@@ -76,7 +76,7 @@ public class ConfigSectionFragment extends Fragment {
         type = extras.getString("type");
     }
 
-    private View createLayout(@NonNull View view) {
+    private void createLayout(@NonNull View view) {
         LinearLayout ll = view.findViewById(R.id.layout_root);
         ll.setOrientation(LinearLayout.VERTICAL);
 
@@ -86,7 +86,6 @@ public class ConfigSectionFragment extends Fragment {
             ll.addView(c);
         }
 
-        return ll;
     }
 
     private void onSubmit() {

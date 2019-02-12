@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+
 public class FileChooser extends ListActivity {
 
     public final static int CHOOSE_FILE = 0;
@@ -27,18 +29,17 @@ public class FileChooser extends ListActivity {
     private File currentDir;
     private FileArrayAdapter adapter;
 
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         currentDir = new File(SD_CARD);
         fill(currentDir);
     }
 
-    private void fill(File f) {
+    private void fill(@NonNull File f) {
         File[] dirs = f.listFiles();
         this.setTitle(getString(R.string.current_dir) + f.getName());
-        List<Option> dir = new ArrayList<Option>();
-        List<Option> fls = new ArrayList<Option>();
+        List<Option> dir = new ArrayList<>();
+        List<Option> fls = new ArrayList<>();
         try {
             for (File ff : dirs) {
                 if (ff.isDirectory())
@@ -50,7 +51,7 @@ public class FileChooser extends ListActivity {
                 }
             }
         } catch (Exception e) {
-
+            // ignore
         }
         Collections.sort(dir);
         Collections.sort(fls);
@@ -76,7 +77,7 @@ public class FileChooser extends ListActivity {
         }
     }
 
-    private void onFileClick(Option o) {
+    private void onFileClick(@NonNull Option o) {
         Intent intent = new Intent();
         intent.putExtra("filepath", o.getPath());
         intent.putExtra("filename", o.getName());
@@ -90,7 +91,7 @@ class Option implements Comparable<Option> {
     private String data;
     private String path;
 
-    public Option(String n, String d, String p) {
+    Option(String n, String d, String p) {
         name = n;
         data = d;
         path = p;
@@ -104,10 +105,9 @@ class Option implements Comparable<Option> {
         return data;
     }
 
-    public String getPath() {
+    String getPath() {
         return path;
     }
-
 
     public int compareTo(Option o) {
         if (this.name != null)
@@ -123,8 +123,8 @@ class FileArrayAdapter extends ArrayAdapter<Option> {
     private int id;
     private List<Option> items;
 
-    public FileArrayAdapter(Context context, int textViewResourceId,
-                            List<Option> objects) {
+    FileArrayAdapter(Context context, int textViewResourceId,
+                     List<Option> objects) {
         super(context, textViewResourceId, objects);
         c = context;
         id = textViewResourceId;
@@ -135,8 +135,8 @@ class FileArrayAdapter extends ArrayAdapter<Option> {
         return items.get(i);
     }
 
-
-    public View getView(int position, View convertView, ViewGroup parent) {
+    @NonNull
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View v = convertView;
         if (v == null) {
             LayoutInflater vi = (LayoutInflater) c
@@ -156,5 +156,4 @@ class FileArrayAdapter extends ArrayAdapter<Option> {
         }
         return v;
     }
-
 }

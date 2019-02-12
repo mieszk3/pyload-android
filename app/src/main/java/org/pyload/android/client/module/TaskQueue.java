@@ -18,7 +18,7 @@ import java.util.Map.Entry;
  */
 
 public class TaskQueue {
-    private final LinkedList<GuiTask> tasks = new LinkedList<GuiTask>();
+    private final LinkedList<GuiTask> tasks = new LinkedList<>();
     private HashMap<Throwable, Runnable> exceptionMap;
     private Handler mHandler;
     private pyLoadApp app;
@@ -98,9 +98,7 @@ public class TaskQueue {
                     if (t.getClass() == set.getKey().getClass()) {
                         mHandler.post(set.getValue());
                     }
-
                 }
-
             }
         }
     }

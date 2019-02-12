@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,6 +12,7 @@ import org.pyload.android.client.R;
 import org.pyload.thrift.FileData;
 import org.pyload.thrift.PackageData;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 public class FileInfoDialog extends DialogFragment {
@@ -40,7 +40,7 @@ public class FileInfoDialog extends DialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View dialog = inflater.inflate(R.layout.fileinfo_dialog, container, false);
 
@@ -66,16 +66,12 @@ public class FileInfoDialog extends DialogFragment {
         view.setText(pack.folder);
 
         Button button = dialog.findViewById(R.id.close);
-        button.setOnClickListener(new OnClickListener() {
-
-            public void onClick(View arg0) {
-                dismiss();
-            }
-        });
+        button.setOnClickListener(v -> dismiss());
 
         return dialog;
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);

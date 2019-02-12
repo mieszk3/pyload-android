@@ -46,10 +46,10 @@ public class AccountDialog extends DialogFragment {
         });
         app.addTask(task);
 
-        ListView lv = new ListView(getActivity());
+        ListView lv = new ListView(getContext());
         lv.setAdapter(adapter);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setCancelable(true)
                 .setView(lv)
                 .setTitle(R.string.accounts)

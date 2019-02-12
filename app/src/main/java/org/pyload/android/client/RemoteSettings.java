@@ -13,12 +13,10 @@ public class RemoteSettings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.remote_settings);
 
-        if (true) {
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setHomeButtonEnabled(true);
-                actionBar.setDisplayHomeAsUpEnabled(true);
-            }
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
 
