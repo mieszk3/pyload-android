@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/list_header_title"
         style="?android:attr/listSeparatorTextViewStyle"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="2dip"
         android:paddingLeft="5dip"
@@ -16,7 +16,7 @@
 
     <LinearLayout
         android:id="@+id/buttonbar"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="bottom"
@@ -24,23 +24,23 @@
 
         <Button
             android:id="@+id/button_submit"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/submit"/>
+            android:text="@string/submit" />
 
         <Button
             android:id="@+id/button_cancel"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/cancel"/>
+            android:text="@string/cancel" />
 
     </LinearLayout>
 
     <ScrollView
         android:id="@+id/scrollview"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/buttonbar"
         android:layout_below="@id/list_header_title"
@@ -49,9 +49,9 @@
 
         <LinearLayout
             android:id="@+id/layout_root"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+            android:orientation="vertical" />
     </ScrollView>
 
 

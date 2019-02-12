@@ -3,17 +3,19 @@ package org.pyload.android.client;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.view.MenuItemCompat;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import org.pyload.android.client.components.FragmentTabsPager;
 import org.pyload.android.client.dialogs.AccountDialog;
@@ -32,6 +34,8 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
+
+import androidx.core.content.ContextCompat;
 
 public class pyLoad extends FragmentTabsPager {
 
@@ -58,7 +62,6 @@ public class pyLoad extends FragmentTabsPager {
         app.cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         app.init(this);
 
-        Resources res = getResources(); // Resource object to get Drawables
         TabHost.TabSpec spec; // Resusable TabSpec for each tab
         String title;
 
@@ -75,18 +78,33 @@ public class pyLoad extends FragmentTabsPager {
 
         title = getString(R.string.overview);
         spec = mTabHost.newTabSpec(title).setIndicator(title,
-                res.getDrawable(tab_pyload));
+                ContextCompat.getDrawable(this, tab_pyload));
         mTabsAdapter.addTab(spec, OverviewFragment.class, null);
 
         title = getString(R.string.queue);
         spec = mTabHost.newTabSpec(title).setIndicator(title,
-                res.getDrawable(tab_queue));
+                ContextCompat.getDrawable(this, tab_queue));
         mTabsAdapter.addTab(spec, QueueFragment.class, null);
 
         title = getString(R.string.collector);
         spec = mTabHost.newTabSpec(title).setIndicator(title,
-                res.getDrawable(tab_collector));
+                ContextCompat.getDrawable(this, tab_collector));
         mTabsAdapter.addTab(spec, CollectorFragment.class, null);
+
+        int tabCount = mTabHost.getTabWidget().getTabCount();
+        for (int i = 0; i < tabCount; i++) {
+            final View view = mTabHost.getTabWidget().getChildTabViewAt(i);
+            if (view != null) {
+                final View textView = view.findViewById(android.R.id.title);
+                if (textView instanceof TextView) {
+                    ((TextView) textView).setGravity(Gravity.CENTER);
+                    ((TextView) textView).setSingleLine(false);
+
+                    textView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+                    textView.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                }
+            }
+        }
     }
 
     @Override
@@ -136,10 +154,8 @@ public class pyLoad extends FragmentTabsPager {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         refreshItem = menu.findItem(R.id.refresh);
-
-        MenuItemCompat.setShowAsAction(refreshItem, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
-        MenuItemCompat.setShowAsAction(menu.findItem(R.id.add_links),
-                MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
+        refreshItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        menu.findItem(R.id.add_links).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
         return true;
     }
@@ -178,11 +194,9 @@ public class pyLoad extends FragmentTabsPager {
                 return true;
 
             case R.id.restart_failed:
-                app.addTask(new GuiTask(new Runnable() {
-                    public void run() {
-                        Client client = app.getClient();
-                        client.restartFailed();
-                    }
+                app.addTask(new GuiTask(() -> {
+                    Client client = app.getClient();
+                    client.restartFailed();
                 }, app.handleSuccess));
 
                 return true;
@@ -211,7 +225,7 @@ public class pyLoad extends FragmentTabsPager {
                         else
                             dest = Destination.Collector;
 
-                        final ArrayList<String> links = new ArrayList<String>();
+                        final ArrayList<String> links = new ArrayList<>();
                         for (String link_row : link_array)
                             for (String link : link_row.trim().split(" "))
                                 if (!link.equals(""))
@@ -219,49 +233,46 @@ public class pyLoad extends FragmentTabsPager {
 
                         final String password = data.getStringExtra("password");
 
-                        app.addTask(new GuiTask(new Runnable() {
+                        app.addTask(new GuiTask(() -> {
+                            Client client = app.getClient();
 
-                            public void run() {
-                                Client client = app.getClient();
+                            if (links.size() > 0) {
+                                int pid = client.addPackage(name, links, dest);
 
-                                if (links.size() > 0) {
-                                    int pid = client.addPackage(name, links, dest);
+                                if (password != null && !password.equals("")) {
 
-                                    if (password != null && !password.equals("")) {
+                                    HashMap<String, String> opts = new HashMap<>();
+                                    opts.put("password", password);
 
-                                        HashMap<String, String> opts = new HashMap<String, String>();
-                                        opts.put("password", password);
-
-                                        try {
-                                            client.setPackageData(pid, opts);
-                                        } catch (PackageDoesNotExists e) {
-                                            // TODO Auto-generated catch block
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }
-                                if (filename != null && !filepath.equals("")) {
-
-                                    File file = new File(filepath);
                                     try {
-                                        if (file.length() > (1 << 20))
-                                            throw new Exception("File size to large");
-                                        FileInputStream is = new FileInputStream(file);
-                                        ByteBuffer buffer = ByteBuffer
-                                                .allocate((int) file.length());
-
-                                        while (is.getChannel().read(buffer) > 0) ;
-
-                                        buffer.rewind();
-                                        is.close();
-                                        client.uploadContainer(filename, buffer);
-
-                                    } catch (Throwable e) {
-                                        Log.e("pyLoad", "Error when uploading file", e);
+                                        client.setPackageData(pid, opts);
+                                    } catch (PackageDoesNotExists e) {
+                                        // TODO Auto-generated catch block
+                                        e.printStackTrace();
                                     }
                                 }
-
                             }
+                            if (filename != null && !filepath.equals("")) {
+
+                                File file = new File(filepath);
+                                try {
+                                    if (file.length() > (1 << 20))
+                                        throw new Exception("File size to large");
+                                    FileInputStream is = new FileInputStream(file);
+                                    ByteBuffer buffer = ByteBuffer
+                                            .allocate((int) file.length());
+
+                                    while (is.getChannel().read(buffer) > 0) ;
+
+                                    buffer.rewind();
+                                    is.close();
+                                    client.uploadContainer(filename, buffer);
+
+                                } catch (Throwable e) {
+                                    Log.e("pyLoad", "Error when uploading file", e);
+                                }
+                            }
+
                         }, app.handleSuccess));
                         break;
                     default:
@@ -295,22 +306,17 @@ public class pyLoad extends FragmentTabsPager {
 
         Log.d("pyLoad", "Change locale to: " + locale);
         Configuration config = new Configuration(getResources().getConfiguration());
-        config.locale = locale;
-        getResources().updateConfiguration(config,
-                getResources().getDisplayMetrics());
+        config.setLocale(locale);
+
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
     }
 
     public void setCaptchaResult(final short tid, final String result) {
-        app.addTask(new GuiTask(new Runnable() {
-
-            public void run() {
-                Client client = app.getClient();
-                Log.d("pyLoad", "Send Captcha result: " + tid + " " + result);
-                client.setCaptchaResult(tid, result);
-
-            }
+        app.addTask(new GuiTask(() -> {
+            Client client = app.getClient();
+            Log.d("pyLoad", "Send Captcha result: " + tid + " " + result);
+            client.setCaptchaResult(tid, result);
         }));
-
     }
 
     public MenuItem getRefreshItem() {

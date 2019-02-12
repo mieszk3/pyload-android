@@ -1,10 +1,11 @@
 package org.pyload.android.client;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
 import org.pyload.android.client.module.AppCompatPreferenceActivity;
+
+import androidx.appcompat.app.ActionBar;
 
 public class Preferences extends AppCompatPreferenceActivity {
     @Override
@@ -12,12 +13,10 @@ public class Preferences extends AppCompatPreferenceActivity {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
-        if (pyLoadApp.isActionBarAvailable()) {
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setHomeButtonEnabled(true);
-                actionBar.setDisplayHomeAsUpEnabled(true);
-            }
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
 
@@ -29,5 +28,4 @@ public class Preferences extends AppCompatPreferenceActivity {
         }
         return true;
     }
-
 }

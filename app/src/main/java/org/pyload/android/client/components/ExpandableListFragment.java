@@ -1,7 +1,6 @@
 package org.pyload.android.client.components;
 
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.ContextMenu;
@@ -21,13 +20,15 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ExpandableListFragment extends Fragment
-    implements OnCreateContextMenuListener,
-    ExpandableListView.OnChildClickListener, ExpandableListView.OnGroupCollapseListener,
-    ExpandableListView.OnGroupExpandListener
-    {
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
-    static final int INTERNAL_EMPTY_ID = 0x00ff0001;
+public class ExpandableListFragment extends Fragment
+        implements OnCreateContextMenuListener,
+        ExpandableListView.OnChildClickListener, ExpandableListView.OnGroupCollapseListener,
+        ExpandableListView.OnGroupExpandListener {
+
+    private static final int INTERNAL_EMPTY_ID = 0x00ff0001;
 
     final private Handler mHandler = new Handler();
 
@@ -38,29 +39,18 @@ public class ExpandableListFragment extends Fragment
     };
 
     final private AdapterView.OnItemClickListener mOnClickListener
-            = new AdapterView.OnItemClickListener() {
-        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-            onListItemClick((ListView)parent, v, position, id);
-        }
-    };
-    
-    final private OnChildClickListener mOnChildClickListener = new OnChildClickListener() {
-		
-		@Override
-		public boolean onChildClick(ExpandableListView arg0, View arg1, int arg2,
-				int arg3, long arg4) {
-			return ExpandableListFragment.this.onChildClick(arg0, arg1, arg2, arg3, arg4);
-		}
-	};
+            = (parent, v, position, id) -> onListItemClick((ListView) parent, v, position, id);
 
-    ExpandableListAdapter mAdapter;
-    ExpandableListView mList;
-    View mEmptyView;
-    TextView mStandardEmptyView;
-    View mListContainer;
-    boolean mSetEmptyText;
-    boolean mListShown;
-    boolean mFinishedStart = false;
+    final private OnChildClickListener mOnChildClickListener = ExpandableListFragment.this;
+
+    private ExpandableListAdapter mAdapter;
+    private ExpandableListView mList;
+    private View mEmptyView;
+    private TextView mStandardEmptyView;
+    private View mListContainer;
+    private boolean mSetEmptyText;
+    private boolean mListShown;
+    private boolean mFinishedStart = false;
 
     public ExpandableListFragment() {
     }
@@ -80,9 +70,9 @@ public class ExpandableListFragment extends Fragment
      * way to have the built-in indeterminant progress state be shown.
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        FrameLayout root = new FrameLayout(getActivity());
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        FrameLayout root = new FrameLayout(getContext());
 
         TextView tv = new TextView(getActivity());
         tv.setId(INTERNAL_EMPTY_ID);
@@ -90,7 +80,7 @@ public class ExpandableListFragment extends Fragment
         root.addView(tv, new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        ExpandableListView lv = new ExpandableListView(getActivity());
+        ExpandableListView lv = new ExpandableListView(getContext());
         lv.setId(android.R.id.list);
         lv.setDrawSelectorOnTop(false);
         root.addView(lv, new FrameLayout.LayoutParams(
@@ -128,10 +118,10 @@ public class ExpandableListFragment extends Fragment
      * getListView().getItemAtPosition(position) if they need to access the
      * data associated with the selected item.
      *
-     * @param l The ListView where the click happened
-     * @param v The view that was clicked within the ListView
+     * @param l        The ListView where the click happened
+     * @param v        The view that was clicked within the ListView
      * @param position The position of the view in the list
-     * @param id The row id of the item that was clicked
+     * @param id       The row id of the item that was clicked
      */
     public void onListItemClick(ListView l, View v, int position, long id) {
     }
@@ -207,7 +197,7 @@ public class ExpandableListFragment extends Fragment
      * it will be do without the user ever seeing the hidden state.
      *
      * @param shown If true, the list view is shown; if false, the progress
-     * indicator.  The initial value is true.
+     *              indicator.  The initial value is true.
      */
     public void setListShown(boolean shown) {
         setListShown(shown, true);
@@ -226,10 +216,10 @@ public class ExpandableListFragment extends Fragment
      * displayed if you are waiting for the initial data to show in it.  During
      * this time an indeterminant progress indicator will be shown instead.
      *
-     * @param shown If true, the list view is shown; if false, the progress
-     * indicator.  The initial value is true.
+     * @param shown   If true, the list view is shown; if false, the progress
+     *                indicator.  The initial value is true.
      * @param animate If true, an animation will be used to transition to the
-     * new state.
+     *                new state.
      */
     private void setListShown(boolean shown, boolean animate) {
         ensureList();
@@ -268,9 +258,9 @@ public class ExpandableListFragment extends Fragment
             throw new IllegalStateException("Content view not yet created");
         }
         if (root instanceof ExpandableListView) {
-            mList = (ExpandableListView)root;
+            mList = (ExpandableListView) root;
         } else {
-            mStandardEmptyView = (TextView)root.findViewById(INTERNAL_EMPTY_ID);
+            mStandardEmptyView = root.findViewById(INTERNAL_EMPTY_ID);
             if (mStandardEmptyView == null) {
                 mEmptyView = root.findViewById(android.R.id.empty);
             }
@@ -280,13 +270,13 @@ public class ExpandableListFragment extends Fragment
                 if (rawListView == null) {
                     throw new RuntimeException(
                             "Your content must have a ExpandableListView whose id attribute is " +
-                            "'android.R.id.list'");
+                                    "'android.R.id.list'");
                 }
                 throw new RuntimeException(
                         "Content has view with id attribute 'android.R.id.list' "
-                        + "that is not a ExpandableListView class");
+                                + "that is not a ExpandableListView class");
             }
-            mList = (ExpandableListView)rawListView;
+            mList = (ExpandableListView) rawListView;
             if (mEmptyView != null) {
                 mList.setEmptyView(mEmptyView);
             }
@@ -318,7 +308,7 @@ public class ExpandableListFragment extends Fragment
 
     @Override
     public boolean onChildClick(ExpandableListView arg0, View arg1, int arg2,
-            int arg3, long arg4) {
+                                int arg3, long arg4) {
         return false;
     }
 
@@ -328,11 +318,11 @@ public class ExpandableListFragment extends Fragment
 
     public void onContentChanged() {
         View emptyView = getView().findViewById(android.R.id.empty);
-        mList = (ExpandableListView)getView().findViewById(android.R.id.list);
+        mList = getView().findViewById(android.R.id.list);
         if (mList == null) {
             throw new RuntimeException(
                     "Your content must have a ExpandableListView whose id attribute is " +
-                    "'android.R.id.list'");
+                            "'android.R.id.list'");
         }
         if (emptyView != null) {
             mList.setEmptyView(emptyView);

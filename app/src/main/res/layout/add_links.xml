@@ -1,110 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ScrollView01"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:scrollbars="vertical">
-<LinearLayout
-        android:layout_width="fill_parent"
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:orientation="vertical"
-        android:layout_height="fill_parent">
+        android:layout_height="match_parent">
 
-<TextView
-    android:id="@+id/TextViewTitle"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/addlinks_desc"
-    android:textSize="10pt">
-</TextView>
+        <TextView
+            android:id="@+id/TextViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/addlinks_desc"
+            android:textSize="10pt"></TextView>
 
-<EditText
-    android:id="@+id/new_packname"
-    android:layout_height="wrap_content"
-    android:hint="@string/name"
-    android:inputType="text"
-    android:layout_width="fill_parent">
-</EditText>
+        <EditText
+            android:id="@+id/new_packname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/name"
+            android:inputType="text"></EditText>
 
-<EditText
-    android:id="@+id/links"
-    android:layout_height="wrap_content"
-    android:hint="@string/package_links"
-    android:inputType="textMultiLine"
-    android:lines="5"
-    android:layout_width="fill_parent">
-</EditText>
+        <EditText
+            android:id="@+id/links"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/package_links"
+            android:inputType="textMultiLine"
+            android:lines="5"></EditText>
 
-<EditText
-    android:id="@+id/password"
-    android:layout_height="wrap_content"
-    android:hint="@string/password"
-    android:inputType="textPassword"
-    android:layout_width="fill_parent">
-</EditText>
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password"
+            android:inputType="textPassword"></EditText>
 
 
-<Spinner
-    android:id="@+id/destination"
-    android:layout_height="wrap_content"
-    android:prompt="@string/destination"
-    android:layout_width="fill_parent"
-    android:entries="@array/destination_list">
-</Spinner>
+        <Spinner
+            android:id="@+id/destination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/destination_list"
+            android:prompt="@string/destination"></Spinner>
 
-<LinearLayout android:layout_height="wrap_content" 
-	android:layout_width="fill_parent"
-	android:id="@+id/linearLayout1" 
-	android:orientation="horizontal"
-	android:gravity="center_horizontal"
-	android:layout_weight="1">
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
-<EditText
-    android:id="@+id/filename"
-    android:layout_height="wrap_content"
-    android:hint="@string/choose_file"
-    android:lines="1"
-    android:layout_width="fill_parent"
-    android:layout_weight="0.5">
-</EditText>
+            <EditText
+                android:id="@+id/filename"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:hint="@string/choose_file"
+                android:lines="1"></EditText>
 
-<Button  
-    android:id="@+id/button_pick"  
-    android:layout_height="wrap_content"
-    android:text="@string/choose"  
-    android:onClick="pickFile"  
-    android:layout_width="fill_parent"
-    android:layout_weight="1">
-</Button>
+            <Button
+                android:id="@+id/button_pick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="pickFile"
+                android:text="@string/choose"></Button>
 
-</LinearLayout>  
+        </LinearLayout>
 
-<LinearLayout android:layout_height="wrap_content" 
-	android:layout_width="fill_parent"
-	android:id="@+id/linearLayout2" 
-	android:orientation="horizontal"
-	android:gravity="center_horizontal"
-	android:layout_weight="1">
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
-<Button  
-    android:id="@+id/button_add"  
-    android:layout_height="wrap_content"  
-    android:text="@string/add"  
-    android:onClick="addPackage"  
-    android:layout_width="fill_parent"
-    android:layout_weight="1">  
-</Button>
+            <Button
+                android:id="@+id/button_add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="addPackage"
+                android:text="@string/add"></Button>
 
-<Button  
-    android:id="@+id/button_cancel"  
-    android:layout_height="wrap_content"
-    android:text="@string/cancel"  
-    android:onClick="onCancel"  
-    android:layout_width="fill_parent"
-    android:layout_weight="1">
-</Button>
+            <Button
+                android:id="@+id/button_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onCancel"
+                android:text="@string/cancel"></Button>
 
-</LinearLayout>  
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

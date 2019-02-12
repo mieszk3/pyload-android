@@ -21,20 +21,19 @@ package org.apache.thrift.protocol;
 
 /**
  * Helper class that encapsulates map metadata.
- *
  */
 public final class TMap {
-  public TMap() {
-    this(TType.STOP, TType.STOP, 0);
-  }
+    public final byte keyType;
+    public final byte valueType;
+    public final int size;
 
-  public TMap(byte k, byte v, int s) {
-    keyType = k;
-    valueType = v;
-    size = s;
-  }
+    public TMap() {
+        this(TType.STOP, TType.STOP, 0);
+    }
 
-  public final byte  keyType;
-  public final byte  valueType;
-  public final int   size;
+    public TMap(byte k, byte v, int s) {
+        keyType = k;
+        valueType = v;
+        size = s;
+    }
 }

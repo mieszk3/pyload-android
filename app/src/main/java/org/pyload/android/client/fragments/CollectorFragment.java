@@ -5,9 +5,9 @@ import android.app.Activity;
 
 public final class CollectorFragment extends AbstractPackageFragment {
 
-	@Override
-	public void onAttach(Activity activity) {
-		dest = 1;
-		super.onAttach(activity);
-	}
+    @Override
+    public void onAttach(Activity activity) {
+        dest = 1;
+        super.onAttach(activity);
+    }
 }

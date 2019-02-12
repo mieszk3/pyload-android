@@ -4,13 +4,13 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import org.pyload.android.client.R;
 import org.pyload.android.client.module.GuiTask;
 import org.pyload.android.client.module.Utils;
@@ -22,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import androidx.fragment.app.DialogFragment;
 
 public class AccountDialog extends DialogFragment {
 
@@ -43,9 +45,9 @@ public class AccountDialog extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setCancelable(true)
-               .setView(lv)
-               .setTitle(R.string.accounts)
-               .setPositiveButton(R.string.close, null);
+                .setView(lv)
+                .setTitle(R.string.accounts)
+                .setPositiveButton(R.string.close, null);
         return builder.create();
     }
 
@@ -65,7 +67,7 @@ class AccountAdapter extends BaseAdapter {
     private List<AccountInfo> data;
 
     public AccountAdapter(final Context context) {
-        layoutInflater = (LayoutInflater)  context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         data = new ArrayList<AccountInfo>();
     }
@@ -102,11 +104,11 @@ class AccountAdapter extends BaseAdapter {
 
         holder = new ViewHolder();
 
-        holder.type = (TextView) view.findViewById(R.id.type);
-        holder.name = (TextView) view.findViewById(R.id.name);
-        holder.valid = (TextView) view.findViewById(R.id.valid);
-        holder.validuntil = (TextView) view.findViewById(R.id.validuntil);
-        holder.trafficleft = (TextView) view.findViewById(R.id.trafficleft);
+        holder.type = view.findViewById(R.id.type);
+        holder.name = view.findViewById(R.id.name);
+        holder.valid = view.findViewById(R.id.valid);
+        holder.validuntil = view.findViewById(R.id.validuntil);
+        holder.trafficleft = view.findViewById(R.id.trafficleft);
 
         view.setTag(holder);
 

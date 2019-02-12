@@ -2,8 +2,6 @@ package org.pyload.android.client;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +11,9 @@ import android.widget.Spinner;
 import org.pyload.android.client.module.FileChooser;
 
 import java.util.regex.Matcher;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class AddLinksActivity extends AppCompatActivity {
 
@@ -25,12 +26,10 @@ public class AddLinksActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_links);
 
-        if (pyLoadApp.isActionBarAvailable()) {
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setHomeButtonEnabled(true);
-                actionBar.setDisplayHomeAsUpEnabled(true);
-            }
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
 
@@ -51,7 +50,7 @@ public class AddLinksActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String name = intent.getStringExtra("name");
         if (name != null) {
-            EditText nameView = (EditText) findViewById(R.id.new_packname);
+            EditText nameView = findViewById(R.id.new_packname);
             nameView.setText(name);
         }
         String url = intent.getStringExtra("url");
@@ -59,16 +58,16 @@ public class AddLinksActivity extends AppCompatActivity {
             StringBuilder urls = new StringBuilder();
             Matcher m = Patterns.WEB_URL.matcher(url);
             while (m.find()) {
-                urls.append(m.group() + "\n");
+                urls.append(m.group()).append("\n");
             }
             if (urls.length() > 0) {
-                EditText view = (EditText) findViewById(R.id.links);
+                EditText view = findViewById(R.id.links);
                 view.setText(urls.toString());
             }
         }
         String path = intent.getStringExtra("dlcpath");
         if (path != null) {
-            EditText view = (EditText) findViewById(R.id.filename);
+            EditText view = findViewById(R.id.filename);
             view.setText(path);
         }
 
@@ -78,21 +77,21 @@ public class AddLinksActivity extends AppCompatActivity {
 
         Intent data = new Intent();
 
-        EditText view = (EditText) findViewById(R.id.new_packname);
+        EditText view = findViewById(R.id.new_packname);
 
         data.putExtra("name", view.getText().toString());
 
-        view = (EditText) findViewById(R.id.links);
+        view = findViewById(R.id.links);
         data.putExtra("links", view.getText().toString());
 
-        view = (EditText) findViewById(R.id.password);
+        view = findViewById(R.id.password);
         data.putExtra("password", view.getText().toString());
 
-        view = (EditText) findViewById(R.id.filename);
+        view = findViewById(R.id.filename);
         data.putExtra("filepath", view.getText().toString().trim());
         data.putExtra("filename", filename);
 
-        Spinner spin = (Spinner) findViewById(R.id.destination);
+        Spinner spin = findViewById(R.id.destination);
 
         data.putExtra("dest", spin.getSelectedItemPosition());
 
@@ -119,7 +118,7 @@ public class AddLinksActivity extends AppCompatActivity {
 
                         String path = data.getStringExtra("filepath");
                         filename = data.getStringExtra("filename");
-                        EditText view = (EditText) findViewById(R.id.filename);
+                        EditText view = findViewById(R.id.filename);
                         view.setText(path);
 
                         break;

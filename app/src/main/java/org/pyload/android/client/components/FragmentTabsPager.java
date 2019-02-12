@@ -17,25 +17,25 @@ package org.pyload.android.client.components;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.Window;
 import android.widget.TabHost;
 
 import org.pyload.android.client.R;
-import org.pyload.android.client.pyLoadApp;
 
 import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * Demonstrates combining a TabHost with a ViewPager to implement a tab UI that
  * switches between tabs and also allows the user to perform horizontal flicks
  * to move between the tabs.
  */
-public class FragmentTabsPager extends AppCompatActivity {
+public abstract class FragmentTabsPager extends AppCompatActivity {
     protected TabHost mTabHost;
     protected ViewPager mViewPager;
     protected TabsAdapter mTabsAdapter;
@@ -43,15 +43,12 @@ public class FragmentTabsPager extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!pyLoadApp.isActionBarAvailable()) {
-            requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-        }
 
         setContentView(R.layout.fragment_tabs_pager);
-        mTabHost = (TabHost) findViewById(android.R.id.tabhost);
+        mTabHost = findViewById(android.R.id.tabhost);
         mTabHost.setup();
 
-        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager = findViewById(R.id.pager);
 
         mTabsAdapter = new TabsAdapter(this, mTabHost, mViewPager);
 
@@ -91,7 +88,7 @@ public class FragmentTabsPager extends AppCompatActivity {
         private final Context mContext;
         private final TabHost mTabHost;
         private final ViewPager mViewPager;
-        private final ArrayList<TabInfo> mTabs = new ArrayList<TabInfo>();
+        private final ArrayList<TabInfo> mTabs = new ArrayList<>();
         private int selected = 0;
 
         static final class TabInfo {
@@ -122,7 +119,7 @@ public class FragmentTabsPager extends AppCompatActivity {
             }
         }
 
-        public TabsAdapter(FragmentActivity activity, TabHost tabHost,
+        public TabsAdapter(@NonNull FragmentActivity activity, TabHost tabHost,
                            ViewPager pager) {
             super(activity.getSupportFragmentManager());
             mContext = activity;

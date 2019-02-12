@@ -24,18 +24,17 @@ package org.apache.thrift.transport;
  * This is used primarily in servers, which get Transports from
  * a ServerTransport and then may want to mutate them (i.e. create
  * a BufferedTransport from the underlying base transport)
- *
  */
 public class TTransportFactory {
 
-  /**
-   * Return a wrapped instance of the base Transport.
-   *
-   * @param trans The base transport
-   * @return Wrapped Transport
-   */
-  public TTransport getTransport(TTransport trans) {
-    return trans;
-  }
+    /**
+     * Return a wrapped instance of the base Transport.
+     *
+     * @param trans The base transport
+     * @return Wrapped Transport
+     */
+    public TTransport getTransport(TTransport trans) {
+        return trans;
+    }
 
 }

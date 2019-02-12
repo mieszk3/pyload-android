@@ -21,22 +21,21 @@ package org.apache.thrift.protocol;
 
 /**
  * Helper class that encapsulates set metadata.
- *
  */
 public final class TSet {
-  public TSet() {
-    this(TType.STOP, 0);
-  }
+    public final byte elemType;
+    public final int size;
 
-  public TSet(byte t, int s) {
-    elemType = t;
-    size = s;
-  }
+    public TSet() {
+        this(TType.STOP, 0);
+    }
 
-  public TSet(TList list) {
-    this(list.elemType, list.size);
-  }
+    public TSet(byte t, int s) {
+        elemType = t;
+        size = s;
+    }
 
-  public final byte elemType;
-  public final int  size;
+    public TSet(TList list) {
+        this(list.elemType, list.size);
+    }
 }

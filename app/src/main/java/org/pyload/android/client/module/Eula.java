@@ -21,12 +21,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 
-import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.Closeable;
-
 import org.pyload.android.client.R;
+
+import java.io.BufferedReader;
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * Displays an EULA ("End User License Agreement") that the user has to accept before
@@ -43,7 +43,7 @@ public class Eula {
     /**
      * callback to let the activity know when the user has accepted the EULA.
      */
-    static interface OnEulaAgreedTo {
+    interface OnEulaAgreedTo {
 
         /**
          * Called when the user has accepted the eula and the dialog closes.

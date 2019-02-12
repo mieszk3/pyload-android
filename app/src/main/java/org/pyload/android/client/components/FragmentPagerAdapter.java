@@ -17,109 +17,109 @@
 package org.pyload.android.client.components;
 
 import android.os.Parcelable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.PagerAdapter;
 
 /**
- * Implementation of {@link android.support.v4.view.PagerAdapter} that
+ * Implementation of {@link PagerAdapter} that
  * represents each page as a {@link Fragment} that is persistently kept in the
  * fragment manager as long as the user can return to the page.
  */
 public abstract class FragmentPagerAdapter extends PagerAdapter {
-	private static final String TAG = "FragmentPagerAdapter";
-	private static final boolean DEBUG = false;
+    private static final String TAG = "FragmentPagerAdapter";
+    private static final boolean DEBUG = false;
 
-	private final FragmentManager mFragmentManager;
-	private FragmentTransaction mCurTransaction = null;
-	private int container;
+    private final FragmentManager mFragmentManager;
+    private FragmentTransaction mCurTransaction = null;
+    private int container;
 
-	public FragmentPagerAdapter(FragmentManager fm) {
-		mFragmentManager = fm;
-	}
+    FragmentPagerAdapter(FragmentManager fm) {
+        mFragmentManager = fm;
+    }
 
-	/**
-	 * Return the Fragment associated with a specified position.
-	 */
-	public abstract Fragment getItem(int position);
+    private static String makeFragmentName(int viewId, int index) {
+        return "android:switcher:" + viewId + ":" + index;
+    }
 
-	@Override
-	public void startUpdate(View container) {
-	}
+    /**
+     * Return the Fragment associated with a specified position.
+     */
+    public abstract Fragment getItem(int position);
 
-	public Fragment getFragment(int pos) {
-		String name = makeFragmentName(container, pos);
-		return mFragmentManager.findFragmentByTag(name);
-	}
+    @Override
+    public void startUpdate(@NonNull ViewGroup container) {
+    }
 
-	@Override
-	public Object instantiateItem(View container, int position) {
+    Fragment getFragment(int pos) {
+        String name = makeFragmentName(container, pos);
+        return mFragmentManager.findFragmentByTag(name);
+    }
 
-		if (mCurTransaction == null) {
-			mCurTransaction = mFragmentManager.beginTransaction();
-		}
+    @NonNull
+    @Override
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
 
-		this.container = container.getId();
-		// Do we already have this fragment?
-		String name = makeFragmentName(container.getId(), position);
-		Fragment fragment = mFragmentManager.findFragmentByTag(name);
-		if (fragment != null) {
-			if (DEBUG)
-				Log.v(TAG, "Attaching item #" + position + ": f=" + fragment);
-			mCurTransaction.attach(fragment);
-		} else {
-			fragment = getItem(position);
-			if (DEBUG)
-				Log.v(TAG, "Adding item #" + position + ": f=" + fragment);
-			mCurTransaction.add(container.getId(), fragment,
-					makeFragmentName(container.getId(), position));
-		}
+        if (mCurTransaction == null) {
+            mCurTransaction = mFragmentManager.beginTransaction();
+        }
 
-		return fragment;
-	}
+        this.container = container.getId();
+        // Do we already have this fragment?
+        String name = makeFragmentName(container.getId(), position);
+        Fragment fragment = mFragmentManager.findFragmentByTag(name);
+        if (fragment != null) {
+            if (DEBUG)
+                Log.v(TAG, "Attaching item #" + position + ": f=" + fragment);
+            mCurTransaction.attach(fragment);
+        } else {
+            fragment = getItem(position);
+            if (DEBUG)
+                Log.v(TAG, "Adding item #" + position + ": f=" + fragment);
+            mCurTransaction.add(container.getId(), fragment,
+                    makeFragmentName(container.getId(), position));
+        }
 
-	@Override
-	public void destroyItem(View container, int position, Object object) {
-		if (mCurTransaction == null) {
-			mCurTransaction = mFragmentManager.beginTransaction();
-		}
-		if (DEBUG)
-			Log.v(TAG, "Detaching item #" + position + ": f=" + object + " v="
-					+ ((Fragment) object).getView());
-		mCurTransaction.detach((Fragment) object);
-	}
+        return fragment;
+    }
 
-	@Override
-	public void finishUpdate(View container) {
-		if (mCurTransaction != null) {
-			mCurTransaction.commit();
-			mCurTransaction = null;
-			mFragmentManager.executePendingTransactions();
-		}
-	}
-	
-	public int getContainer() {
-		return container;
-	}
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        if (mCurTransaction == null) {
+            mCurTransaction = mFragmentManager.beginTransaction();
+        }
+        if (DEBUG)
+            Log.v(TAG, "Detaching item #" + position + ": f=" + object + " v="
+                    + ((Fragment) object).getView());
+        mCurTransaction.detach((Fragment) object);
+    }
 
-	@Override
-	public boolean isViewFromObject(View view, Object object) {
-		return ((Fragment) object).getView() == view;
-	}
+    @Override
+    public void finishUpdate(@NonNull ViewGroup container) {
+        if (mCurTransaction != null) {
+            mCurTransaction.commit();
+            mCurTransaction = null;
+            mFragmentManager.executePendingTransactions();
+        }
+    }
 
-	@Override
-	public Parcelable saveState() {
-		return null;
-	}
+    @Override
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
+        return ((Fragment) object).getView() == view;
+    }
 
-	@Override
-	public void restoreState(Parcelable state, ClassLoader loader) {
-	}
+    @Override
+    public Parcelable saveState() {
+        return null;
+    }
 
-	private static String makeFragmentName(int viewId, int index) {
-		return "android:switcher:" + viewId + ":" + index;
-	}
+    @Override
+    public void restoreState(Parcelable state, ClassLoader loader) {
+    }
 }

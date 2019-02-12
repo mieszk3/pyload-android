@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,8 +37,8 @@ import java.io.InputStream;
  * Since this class operates directly on byte streams, and not character streams, it is hard-coded to only encode/decode
  * character encodings which are compatible with the lower 127 ASCII chart (ISO-8859-1, Windows-1252, UTF-8, etc).
  * </p>
- * 
- * @author Apache Software Foundation 
+ *
+ * @author Apache Software Foundation
  * @version $Id: Base64InputStream.java 799805 2009-08-01 04:33:05Z ggregory $
  * @see <a href="http://www.ietf.org/rfc/rfc2045.txt">RFC 2045</a>
  * @since 1.4
@@ -53,9 +53,8 @@ public class Base64InputStream extends FilterInputStream {
 
     /**
      * Creates a Base64InputStream such that all data read is Base64-decoded from the original provided InputStream.
-     * 
-     * @param in
-     *            InputStream to wrap.
+     *
+     * @param in InputStream to wrap.
      */
     public Base64InputStream(InputStream in) {
         this(in, false);
@@ -64,11 +63,9 @@ public class Base64InputStream extends FilterInputStream {
     /**
      * Creates a Base64InputStream such that all data read is either Base64-encoded or Base64-decoded from the original
      * provided InputStream.
-     * 
-     * @param in
-     *            InputStream to wrap.
-     * @param doEncode
-     *            true if we should encode all data read from us, false if we should decode.
+     *
+     * @param in       InputStream to wrap.
+     * @param doEncode true if we should encode all data read from us, false if we should decode.
      */
     public Base64InputStream(InputStream in, boolean doEncode) {
         super(in);
@@ -79,18 +76,14 @@ public class Base64InputStream extends FilterInputStream {
     /**
      * Creates a Base64InputStream such that all data read is either Base64-encoded or Base64-decoded from the original
      * provided InputStream.
-     * 
-     * @param in
-     *            InputStream to wrap.
-     * @param doEncode
-     *            true if we should encode all data read from us, false if we should decode.
-     * @param lineLength
-     *            If doEncode is true, each line of encoded data will contain lineLength characters (rounded down to
-     *            nearest multiple of 4). If lineLength <=0, the encoded data is not divided into lines. If doEncode is
-     *            false, lineLength is ignored.
-     * @param lineSeparator
-     *            If doEncode is true, each line of encoded data will be terminated with this byte sequence (e.g. \r\n).
-     *            If lineLength <= 0, the lineSeparator is not used. If doEncode is false lineSeparator is ignored.
+     *
+     * @param in            InputStream to wrap.
+     * @param doEncode      true if we should encode all data read from us, false if we should decode.
+     * @param lineLength    If doEncode is true, each line of encoded data will contain lineLength characters (rounded down to
+     *                      nearest multiple of 4). If lineLength <=0, the encoded data is not divided into lines. If doEncode is
+     *                      false, lineLength is ignored.
+     * @param lineSeparator If doEncode is true, each line of encoded data will be terminated with this byte sequence (e.g. \r\n).
+     *                      If lineLength <= 0, the lineSeparator is not used. If doEncode is false lineSeparator is ignored.
      */
     public Base64InputStream(InputStream in, boolean doEncode, int lineLength, byte[] lineSeparator) {
         super(in);
@@ -100,10 +93,9 @@ public class Base64InputStream extends FilterInputStream {
 
     /**
      * Reads one <code>byte</code> from this input stream.
-     * 
+     *
      * @return the byte as an integer in the range 0 to 255. Returns -1 if EOF has been reached.
-     * @throws IOException
-     *             if an I/O error occurs.
+     * @throws IOException if an I/O error occurs.
      */
     public int read() throws IOException {
         int r = read(singleByte, 0, 1);
@@ -119,21 +111,14 @@ public class Base64InputStream extends FilterInputStream {
     /**
      * Attempts to read <code>len</code> bytes into the specified <code>b</code> array starting at <code>offset</code>
      * from this InputStream.
-     * 
-     * @param b
-     *            destination byte array
-     * @param offset
-     *            where to start writing the bytes
-     * @param len
-     *            maximum number of bytes to read
-     * 
+     *
+     * @param b      destination byte array
+     * @param offset where to start writing the bytes
+     * @param len    maximum number of bytes to read
      * @return number of bytes read
-     * @throws IOException
-     *             if an I/O error occurs.
-     * @throws NullPointerException
-     *             if the byte array parameter is null
-     * @throws IndexOutOfBoundsException
-     *             if offset, len or buffer size are invalid
+     * @throws IOException               if an I/O error occurs.
+     * @throws NullPointerException      if the byte array parameter is null
+     * @throws IndexOutOfBoundsException if offset, len or buffer size are invalid
      */
     public int read(byte b[], int offset, int len) throws IOException {
         if (b == null) {
@@ -165,7 +150,7 @@ public class Base64InputStream extends FilterInputStream {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @return false
      */
     public boolean markSupported() {

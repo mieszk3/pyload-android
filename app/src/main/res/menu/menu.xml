@@ -12,10 +12,10 @@
         android:title="@string/refresh"
         android:icon="@drawable/ic_menu_refresh" />
     <item
-       android:id="@+id/settings"
-       android:titleCondensed="@string/settings"
-       android:title="@string/settings"
-       android:icon="@drawable/ic_menu_manage" />
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_menu_manage"
+        android:title="@string/settings"
+        android:titleCondensed="@string/settings" />
 
     <item
         android:id="@+id/show_accounts"

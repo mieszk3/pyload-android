@@ -13,7 +13,7 @@ import android.widget.ExpandableListView;
 public class FixedExpandableListActivity extends Activity implements
         OnCreateContextMenuListener,
         ExpandableListView.OnChildClickListener, ExpandableListView.OnGroupCollapseListener,
-        ExpandableListView.OnGroupExpandListener {   
+        ExpandableListView.OnGroupExpandListener {
     ExpandableListAdapter mAdapter;
     ExpandableListView mList;
     boolean mFinishedStart = false;
@@ -37,7 +37,7 @@ public class FixedExpandableListActivity extends Activity implements
      * {@inheritDoc}
      */
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
-            int childPosition, long id) {
+                                int childPosition, long id) {
         return false;
     }
 
@@ -56,8 +56,8 @@ public class FixedExpandableListActivity extends Activity implements
     /**
      * Ensures the expandable list view has been created before Activity restores all
      * of the view states.
-     * 
-     *@see Activity#onRestoreInstanceState(Bundle)
+     *
+     * @see Activity#onRestoreInstanceState(Bundle)
      */
     @Override
     protected void onRestoreInstanceState(Bundle state) {
@@ -68,7 +68,7 @@ public class FixedExpandableListActivity extends Activity implements
     /**
      * Updates the screen state (current list and other views) when the
      * content changes.
-     * 
+     *
      * @see Activity#onContentChanged()
      */
     @Override
@@ -83,7 +83,7 @@ public class FixedExpandableListActivity extends Activity implements
         if (mList == null) {
             throw new RuntimeException(
                     "Your content must have a ExpandableListView whose id attribute is " +
-                    "'ru.ponkin.R.id.expandable_listview'");
+                            "'ru.ponkin.R.id.expandable_listview'");
         }
         if (emptyView != null) {
             mList.setEmptyView(emptyView);
@@ -91,7 +91,7 @@ public class FixedExpandableListActivity extends Activity implements
         mList.setOnChildClickListener(this);
         mList.setOnGroupExpandListener(this);
         mList.setOnGroupCollapseListener(this);
-        
+
         if (mFinishedStart) {
             setListAdapter(mAdapter);
         }
@@ -112,14 +112,14 @@ public class FixedExpandableListActivity extends Activity implements
     /**
      * Get the activity's expandable list view widget.  This can be used to get the selection,
      * set the selection, and many other useful functions.
-     * 
+     *
      * @see ExpandableListView
      */
     public ExpandableListView getExpandableListView() {
         ensureList();
         return mList;
     }
-    
+
     /**
      * Get the ExpandableListAdapter associated with this activity's
      * ExpandableListView.
@@ -137,7 +137,7 @@ public class FixedExpandableListActivity extends Activity implements
 
     /**
      * Gets the ID of the currently selected group or child.
-     * 
+     *
      * @return The ID of the currently selected group or child.
      */
     public long getSelectedId() {
@@ -151,9 +151,9 @@ public class FixedExpandableListActivity extends Activity implements
      * {@link ExpandableListView#getPackedPositionGroup}, and
      * {@link ExpandableListView#getPackedPositionChild} to unpack the returned
      * packed position.
-     * 
+     *
      * @return A packed position representation containing the currently
-     *         selected group or child's position and type.
+     * selected group or child's position and type.
      */
     public long getSelectedPosition() {
         return mList.getSelectedPosition();
@@ -163,11 +163,11 @@ public class FixedExpandableListActivity extends Activity implements
      * Sets the selection to the specified child. If the child is in a collapsed
      * group, the group will only be expanded and child subsequently selected if
      * shouldExpandGroup is set to true, otherwise the method will return false.
-     * 
-     * @param groupPosition The position of the group that contains the child.
-     * @param childPosition The position of the child within the group.
+     *
+     * @param groupPosition     The position of the group that contains the child.
+     * @param childPosition     The position of the child within the group.
      * @param shouldExpandGroup Whether the child's group should be expanded if
-     *            it is collapsed.
+     *                          it is collapsed.
      * @return Whether the selection was successfully set on the child.
      */
     public boolean setSelectedChild(int groupPosition, int childPosition, boolean shouldExpandGroup) {
@@ -176,6 +176,7 @@ public class FixedExpandableListActivity extends Activity implements
 
     /**
      * Sets the selection to the specified group.
+     *
      * @param groupPosition The position of the group that should be selected.
      */
     public void setSelectedGroup(int groupPosition) {
