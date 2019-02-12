@@ -16,7 +16,6 @@ import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
-import org.apache.thrift.transport.TSSLTransportFactory;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransportException;
 import org.pyload.android.client.components.TabHandler;
@@ -112,7 +111,13 @@ public class pyLoadApp extends Application {
                     throw new TException(e);
                 }
                 // timeout 8000ms
-                trans = TSSLTransportFactory.createClient(ctx.getSocketFactory(), host, port, 8000);
+                try {
+                    SSLSocket socket = (SSLSocket) ctx.getSocketFactory().createSocket(host, port);
+                    socket.setSoTimeout(8000);
+                    trans = new TSocket(socket);
+                } catch (Exception var5) {
+                    throw new TTransportException("Could not connect to " + host + " on port " + port, var5);
+                }
                 if (prefs.getBoolean("ssl_validate", true)) {
                     X509HostnameVerifier verifier = new BrowserCompatHostnameVerifier();
                     try {
@@ -136,7 +141,7 @@ public class pyLoadApp extends Application {
         return client.login(username, password);
     }
 
-    public Client getClient() throws TException, WrongLogin {
+    public Client getClient() throws TException {
 
         if (client == null) {
             Log.d("pyLoad", "Creating new Client");
@@ -155,7 +160,6 @@ public class pyLoadApp extends Application {
 
             if (!match)
                 throw new WrongServer();
-
         }
         return client;
     }

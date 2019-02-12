@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import org.apache.thrift.TException;
 import org.pyload.android.client.components.FragmentTabsPager;
 import org.pyload.android.client.dialogs.AccountDialog;
 import org.pyload.android.client.fragments.CollectorFragment;
@@ -124,14 +125,17 @@ public class pyLoad extends FragmentTabsPager {
 
             // we got a VIEW intent
         } else if (Intent.ACTION_VIEW.equals(action) && data != null) {
-            if (intent.getScheme().startsWith("http") || intent.getScheme().contains("ftp")) {
-                Intent addURL = new Intent(app, AddLinksActivity.class);
-                addURL.putExtra("url", data.toString());
-                startActivityForResult(addURL, AddLinksActivity.NEW_PACKAGE);
-            } else if (intent.getScheme().equals("file")) {
-                Intent addURL = new Intent(app, AddLinksActivity.class);
-                addURL.putExtra("dlcpath", data.getPath());
-                startActivityForResult(addURL, AddLinksActivity.NEW_PACKAGE);
+            String intentScheme = intent.getScheme();
+            if (intentScheme != null) {
+                if (intentScheme.startsWith("http") || intentScheme.contains("ftp")) {
+                    Intent addURL = new Intent(app, AddLinksActivity.class);
+                    addURL.putExtra("url", data.toString());
+                    startActivityForResult(addURL, AddLinksActivity.NEW_PACKAGE);
+                } else if (intentScheme.equals("file")) {
+                    Intent addURL = new Intent(app, AddLinksActivity.class);
+                    addURL.putExtra("dlcpath", data.getPath());
+                    startActivityForResult(addURL, AddLinksActivity.NEW_PACKAGE);
+                }
             }
             intent.setData(null);
         }
@@ -195,8 +199,13 @@ public class pyLoad extends FragmentTabsPager {
 
             case R.id.restart_failed:
                 app.addTask(new GuiTask(() -> {
-                    Client client = app.getClient();
-                    client.restartFailed();
+                    Client client;
+                    try {
+                        client = app.getClient();
+                        client.restartFailed();
+                    } catch (TException e) {
+                        throw new RuntimeException(e);
+                    }
                 }, app.handleSuccess));
 
                 return true;
@@ -234,23 +243,28 @@ public class pyLoad extends FragmentTabsPager {
                         final String password = data.getStringExtra("password");
 
                         app.addTask(new GuiTask(() -> {
-                            Client client = app.getClient();
+                            Client client;
+                            try {
+                                client = app.getClient();
 
-                            if (links.size() > 0) {
-                                int pid = client.addPackage(name, links, dest);
+                                if (links.size() > 0) {
+                                    int pid = client.addPackage(name, links, dest);
 
-                                if (password != null && !password.equals("")) {
+                                    if (password != null && !password.equals("")) {
 
-                                    HashMap<String, String> opts = new HashMap<>();
-                                    opts.put("password", password);
+                                        HashMap<String, String> opts = new HashMap<>();
+                                        opts.put("password", password);
 
-                                    try {
-                                        client.setPackageData(pid, opts);
-                                    } catch (PackageDoesNotExists e) {
-                                        // TODO Auto-generated catch block
-                                        e.printStackTrace();
+                                        try {
+                                            client.setPackageData(pid, opts);
+                                        } catch (PackageDoesNotExists e) {
+                                            // TODO Auto-generated catch block
+                                            e.printStackTrace();
+                                        }
                                     }
                                 }
+                            } catch (TException e) {
+                                throw new RuntimeException(e);
                             }
                             if (filename != null && !filepath.equals("")) {
 
@@ -313,9 +327,14 @@ public class pyLoad extends FragmentTabsPager {
 
     public void setCaptchaResult(final short tid, final String result) {
         app.addTask(new GuiTask(() -> {
-            Client client = app.getClient();
-            Log.d("pyLoad", "Send Captcha result: " + tid + " " + result);
-            client.setCaptchaResult(tid, result);
+            Client client;
+            try {
+                client = app.getClient();
+                Log.d("pyLoad", "Send Captcha result: " + tid + " " + result);
+                client.setCaptchaResult(tid, result);
+            } catch (TException e) {
+                throw new RuntimeException(e);
+            }
         }));
     }
 

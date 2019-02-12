@@ -8,7 +8,6 @@ import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -17,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.apache.thrift.TException;
 import org.pyload.android.client.R;
 import org.pyload.android.client.module.GuiTask;
 import org.pyload.android.client.pyLoadApp;
@@ -25,8 +25,10 @@ import org.pyload.thrift.ConfigSection;
 import org.pyload.thrift.Pyload.Client;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 public class ConfigSectionFragment extends Fragment {
@@ -45,7 +47,7 @@ public class ConfigSectionFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.config_section, null, false);
@@ -54,20 +56,10 @@ public class ConfigSectionFragment extends Fragment {
         t.setText(section.description);
 
         view.findViewById(R.id.button_submit)
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View arg0) {
-                        onSubmit();
-                    }
-                });
+                .setOnClickListener(arg0 -> onSubmit());
 
         view.findViewById(R.id.button_cancel)
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View arg0) {
-                        onCancel();
-                    }
-                });
+                .setOnClickListener(arg0 -> onCancel());
 
         return view;
     }
@@ -84,7 +76,7 @@ public class ConfigSectionFragment extends Fragment {
         type = extras.getString("type");
     }
 
-    private View createLayout(View view) {
+    private View createLayout(@NonNull View view) {
         LinearLayout ll = view.findViewById(R.id.layout_root);
         ll.setOrientation(LinearLayout.VERTICAL);
 
@@ -97,16 +89,14 @@ public class ConfigSectionFragment extends Fragment {
         return ll;
     }
 
-    public void onSubmit() {
+    private void onSubmit() {
 
         if (!app.hasConnection())
             return;
 
-        app.addTask(new GuiTask(new Runnable() {
+        app.addTask(new GuiTask(() -> {
 
-            @Override
-            public void run() {
-
+            try {
                 Client client = app.getClient();
 
                 for (ConfigItem item : section.items) {
@@ -121,15 +111,16 @@ public class ConfigSectionFragment extends Fragment {
                                 newValue, type);
                     }
                 }
-
-                getFragmentManager().popBackStack();
-
+            } catch (TException e) {
+                // ignore
             }
+
+            getFragmentManager().popBackStack();
 
         }, mRefresh));
     }
 
-    public void onCancel() {
+    private void onCancel() {
         getFragmentManager().popBackStack();
     }
 }
@@ -180,12 +171,10 @@ class ConfigItemView extends LinearLayout {
         } else if (item.type.contains(";")) {
             sp = new Spinner(context);
 
-            choices = new ArrayList<String>();
-            for (String s : item.type.split(";")) {
-                choices.add(s);
-            }
+            choices = new ArrayList<>();
+            Collections.addAll(choices, item.type.split(";"));
 
-            ArrayAdapter<String> adp = new ArrayAdapter<String>(context,
+            ArrayAdapter<String> adp = new ArrayAdapter<>(context,
                     android.R.layout.simple_spinner_item, choices);
             adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 

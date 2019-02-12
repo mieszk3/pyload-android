@@ -1,6 +1,5 @@
 package org.pyload.android.client.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.thrift.TException;
 import org.pyload.android.client.R;
 import org.pyload.android.client.components.ExpandableListFragment;
 import org.pyload.android.client.components.TabHandler;
@@ -37,56 +37,43 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+
 public abstract class AbstractPackageFragment extends ExpandableListFragment
         implements TabHandler {
 
-    /**
-     * Destination, queue = 0, collector = 1, same as in pyLoad Core
-     */
-    final static int FILEINFO_DIALOG = 0;
-    private final Comparator<Object> mOrderComparator = new Comparator<Object>() {
-        public int compare(Object a, Object b) {
-            if (a == null && b == null)
-                return 0;
-            else if (a == null)
-                return 1;
-            else if (b == null)
-                return -1;
-            else if (a instanceof PackageData && b instanceof PackageData)
-                return ((Short) ((PackageData) a).order).compareTo(((PackageData) b).order);
-            else if (a instanceof FileData && b instanceof FileData)
-                return ((Short) ((FileData) a).order).compareTo(((FileData) b).order);
+    private final Comparator<Object> mOrderComparator = (a, b) -> {
+        if (a == null && b == null)
             return 0;
-        }
+        else if (a == null)
+            return 1;
+        else if (b == null)
+            return -1;
+        else if (a instanceof PackageData && b instanceof PackageData)
+            return ((Short) ((PackageData) a).order).compareTo(((PackageData) b).order);
+        else if (a instanceof FileData && b instanceof FileData)
+            return ((Short) ((FileData) a).order).compareTo(((FileData) b).order);
+        return 0;
     };
     protected int dest;
     private List<PackageData> data;
     private pyLoadApp app;
-    private final Runnable mUpdateResults = new Runnable() {
-
-        public void run() {
-            onDataReceived();
-        }
-    };
+    private final Runnable mUpdateResults = this::onDataReceived;
     private Client client;
     // tab position
     private int pos = -1;
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         app = (pyLoadApp) getActivity().getApplicationContext();
-        data = new ArrayList<PackageData>();
+        data = new ArrayList<>();
 
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
 
         registerForContextMenu(view.findViewById(android.R.id.list));
         PackageListAdapter adp = new PackageListAdapter(app, data,
@@ -129,25 +116,27 @@ public abstract class AbstractPackageFragment extends ExpandableListFragment
             switch (item.getItemId()) {
                 case R.id.restart:
 
-                    app.addTask(new GuiTask(new Runnable() {
-
-                        public void run() {
+                    app.addTask(new GuiTask(() -> {
+                        try {
                             client = app.getClient();
                             client.restartFile(file.fid);
+                        } catch (TException e) {
+                            throw new RuntimeException(e);
                         }
                     }, app.handleSuccess));
 
                     break;
                 case R.id.delete:
 
-                    app.addTask(new GuiTask(new Runnable() {
-
-                        public void run() {
+                    app.addTask(new GuiTask(() -> {
+                        try {
                             client = app.getClient();
-                            ArrayList<Integer> fids = new ArrayList<Integer>();
+                            ArrayList<Integer> fids = new ArrayList<>();
                             fids.add(file.fid);
 
                             client.deleteFiles(fids);
+                        } catch (TException e) {
+                            throw new RuntimeException(e);
                         }
                     }, app.handleSuccess));
 
@@ -177,24 +166,26 @@ public abstract class AbstractPackageFragment extends ExpandableListFragment
             switch (item.getItemId()) {
                 case R.id.restart:
 
-                    app.addTask(new GuiTask(new Runnable() {
-
-                        public void run() {
+                    app.addTask(new GuiTask(() -> {
+                        try {
                             client = app.getClient();
                             client.restartPackage(pack.pid);
+                        } catch (TException e) {
+                            throw new RuntimeException(e);
                         }
                     }, app.handleSuccess));
 
                     break;
                 case R.id.delete:
 
-                    app.addTask(new GuiTask(new Runnable() {
-
-                        public void run() {
+                    app.addTask(new GuiTask(() -> {
+                        try {
                             client = app.getClient();
-                            ArrayList<Integer> pids = new ArrayList<Integer>();
+                            ArrayList<Integer> pids = new ArrayList<>();
                             pids.add(pack.pid);
                             client.deletePackages(pids);
+                        } catch (TException e) {
+                            throw new RuntimeException(e);
                         }
                     }, app.handleSuccess));
 
@@ -202,9 +193,8 @@ public abstract class AbstractPackageFragment extends ExpandableListFragment
 
                 case R.id.move:
 
-                    app.addTask(new GuiTask(new Runnable() {
-
-                        public void run() {
+                    app.addTask(new GuiTask(() -> {
+                        try {
                             client = app.getClient();
                             Destination newDest;
                             if (dest == 0) {
@@ -214,6 +204,8 @@ public abstract class AbstractPackageFragment extends ExpandableListFragment
                             }
 
                             client.movePackage(newDest, pack.pid);
+                        } catch (TException e) {
+                            throw new RuntimeException(e);
                         }
                     }, app.handleSuccess));
 
@@ -231,7 +223,7 @@ public abstract class AbstractPackageFragment extends ExpandableListFragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         return inflater.inflate(R.layout.package_list, null, false);
@@ -256,7 +248,10 @@ public abstract class AbstractPackageFragment extends ExpandableListFragment
         }
 
         FileInfoDialog dialog = FileInfoDialog.newInstance(pack, file);
-        dialog.show(getFragmentManager(), FileInfoDialog.class.getName());
+        FragmentManager fragmentManager = getFragmentManager();
+        if (fragmentManager != null && !fragmentManager.isStateSaved()) {
+            dialog.show(fragmentManager, FileInfoDialog.class.getName());
+        }
         return true;
     }
 
@@ -290,21 +285,22 @@ public abstract class AbstractPackageFragment extends ExpandableListFragment
 
         app.setProgress(true);
 
-        GuiTask task = new GuiTask(new Runnable() {
-
-            public void run() {
+        GuiTask task = new GuiTask(() -> {
+            try {
                 client = app.getClient();
                 if (dest == 0)
                     data = client.getQueueData();
                 else
                     data = client.getCollectorData();
+            } catch (TException e) {
+                throw new RuntimeException(e);
             }
         }, mUpdateResults);
 
         app.addTask(task);
     }
 
-    protected void onDataReceived() {
+    private void onDataReceived() {
         app.setProgress(false);
         Collections.sort(data, mOrderComparator);
         for (PackageData pak : data)
@@ -312,12 +308,6 @@ public abstract class AbstractPackageFragment extends ExpandableListFragment
 
         PackageListAdapter adapter = (PackageListAdapter) getExpandableListAdapter();
         adapter.setData(data);
-    }
-
-    protected void onTaskPerformed() {
-        refresh();
-        Toast.makeText(getActivity(), app.getString(R.string.success),
-                Toast.LENGTH_SHORT).show();
     }
 }
 
@@ -328,8 +318,8 @@ class PackageListAdapter extends BaseExpandableListAdapter {
     private final LayoutInflater layoutInflater;
     private List<PackageData> data;
 
-    public PackageListAdapter(pyLoadApp app, List<PackageData> data,
-                              int groupRes, int childRes) {
+    PackageListAdapter(@NonNull pyLoadApp app, List<PackageData> data,
+                       int groupRes, int childRes) {
 
         this.data = data;
         this.groupRes = groupRes;
@@ -458,14 +448,14 @@ class PackageListAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
-    static class GroupViewHolder {
+    private static class GroupViewHolder {
         private TextView name;
         private ProgressBar progress;
         private TextView size;
         private TextView links;
     }
 
-    static class ChildViewHolder {
+    private static class ChildViewHolder {
         private TextView name;
         private TextView status;
         private TextView size;

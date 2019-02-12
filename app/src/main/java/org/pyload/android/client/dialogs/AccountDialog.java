@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.apache.thrift.TException;
 import org.pyload.android.client.R;
 import org.pyload.android.client.module.GuiTask;
 import org.pyload.android.client.module.Utils;
@@ -23,19 +24,24 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 public class AccountDialog extends DialogFragment {
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final AccountAdapter adapter = new AccountAdapter(getActivity());
+        final AccountAdapter adapter = new AccountAdapter(getContext());
 
         final pyLoadApp app = (pyLoadApp) getActivity().getApplication();
-        GuiTask task = new GuiTask(new Runnable() {
-            public void run() {
-                Pyload.Client client = app.getClient();
+        GuiTask task = new GuiTask(() -> {
+            Pyload.Client client;
+            try {
+                client = app.getClient();
                 adapter.setData(client.getAccounts(false));
+            } catch (TException e) {
+                throw new RuntimeException(e);
             }
         });
         app.addTask(task);
@@ -55,7 +61,7 @@ public class AccountDialog extends DialogFragment {
 
 class AccountAdapter extends BaseAdapter {
 
-    static class ViewHolder {
+    private static class ViewHolder {
         private TextView type;
         private TextView name;
         private TextView valid;
@@ -66,10 +72,10 @@ class AccountAdapter extends BaseAdapter {
     private LayoutInflater layoutInflater;
     private List<AccountInfo> data;
 
-    public AccountAdapter(final Context context) {
+    AccountAdapter(@NonNull final Context context) {
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        data = new ArrayList<AccountInfo>();
+        data = new ArrayList<>();
     }
 
     public int getCount() {
@@ -138,5 +144,4 @@ class AccountAdapter extends BaseAdapter {
 
         return view;
     }
-
 }

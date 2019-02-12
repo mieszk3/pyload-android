@@ -18,6 +18,7 @@ import android.widget.BaseAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.apache.thrift.TException;
 import org.pyload.android.client.R;
 import org.pyload.android.client.components.TabHandler;
 import org.pyload.android.client.dialogs.CaptchaDialog;
@@ -33,12 +34,13 @@ import org.pyload.thrift.ServerStatus;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.ListFragment;
 
 public class OverviewFragment extends ListFragment implements
         OnDismissListener, TabHandler {
 
-    public final static int CAPTCHA_DIALOG = 0;
     private final Handler mHandler = new Handler();
     private pyLoadApp app;
     private Client client;
@@ -49,13 +51,17 @@ public class OverviewFragment extends ListFragment implements
     private final Runnable runUpdate = new Runnable() {
 
         public void run() {
-            client = app.getClient();
-            downloads = client.statusDownloads();
-            status = client.statusServer();
-            if (client.isCaptchaWaiting()) {
-                Log.d("pyLoad", "Captcha available");
-                captcha = client.getCaptchaTask(false);
-                Log.d("pyload", captcha.resultType);
+            try {
+                client = app.getClient();
+                downloads = client.statusDownloads();
+                status = client.statusServer();
+                if (client.isCaptchaWaiting()) {
+                    Log.d("pyLoad", "Captcha available");
+                    captcha = client.getCaptchaTask(false);
+                    Log.d("pyload", captcha.resultType);
+                }
+            } catch (TException e) {
+                throw new RuntimeException(e);
             }
         }
     };
@@ -69,12 +75,7 @@ public class OverviewFragment extends ListFragment implements
                 mHandler.postDelayed(this, interval * 1000);
         }
     };
-    private final Runnable cancelUpdate = new Runnable() {
-
-        public void run() {
-            stopUpdate();
-        }
-    };
+    private final Runnable cancelUpdate = this::stopUpdate;
     private boolean dialogOpen = false;
     // tab position
     private int pos = -1;
@@ -85,12 +86,7 @@ public class OverviewFragment extends ListFragment implements
     private TextView reconnect;
     private TextView speed;
     private TextView active;
-    private final Runnable mUpdateResults = new Runnable() {
-
-        public void run() {
-            onDataReceived();
-        }
-    };
+    private final Runnable mUpdateResults = this::onDataReceived;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -113,28 +109,26 @@ public class OverviewFragment extends ListFragment implements
         active = v.findViewById(R.id.active);
 
         // toggle pause on click
-        statusServer.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                app.addTask(new GuiTask(new Runnable() {
-                    public void run() {
-                        Client client = app.getClient();
-                        client.togglePause();
-                    }
-                }, app.handleSuccess));
+        statusServer.setOnClickListener(v12 -> app.addTask(new GuiTask(() -> {
+            Client client;
+            try {
+                client = app.getClient();
+                client.togglePause();
+            } catch (TException e) {
+                throw new RuntimeException(e);
             }
-        });
+        }, app.handleSuccess)));
 
         // toggle reconnect on click
-        reconnect.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                app.addTask(new GuiTask(new Runnable() {
-                    public void run() {
-                        Client client = app.getClient();
-                        client.toggleReconnect();
-                    }
-                }, app.handleSuccess));
+        reconnect.setOnClickListener(v1 -> app.addTask(new GuiTask(() -> {
+            Client client;
+            try {
+                client = app.getClient();
+                client.toggleReconnect();
+            } catch (TException e) {
+                throw new RuntimeException(e);
             }
-        });
+        }, app.handleSuccess)));
 
         if (status != null && downloads != null)
             onDataReceived();
@@ -177,20 +171,16 @@ public class OverviewFragment extends ListFragment implements
         switch (item.getItemId()) {
             case R.id.abort:
 
-                app.addTask(new GuiTask(new Runnable() {
-
-                    public void run() {
+                app.addTask(new GuiTask(() -> {
+                    try {
                         client = app.getClient();
-                        ArrayList<Integer> fids = new ArrayList<Integer>();
+                        ArrayList<Integer> fids = new ArrayList<>();
                         fids.add(info.fid);
                         client.stopDownloads(fids);
+                    } catch (TException e) {
+                        throw new RuntimeException(e);
                     }
-                }, new Runnable() {
-
-                    public void run() {
-                        refresh();
-                    }
-                }));
+                }, this::refresh));
                 return true;
 
             default:
@@ -214,8 +204,7 @@ public class OverviewFragment extends ListFragment implements
         if (update)
             return;
         try {
-            interval = Integer.parseInt(app.prefs
-                    .getString("refresh_rate", "5"));
+            interval = Integer.parseInt(app.prefs.getString("refresh_rate", "5"));
         } catch (NumberFormatException e) {
             // somehow contains illegal value
             interval = 5;
@@ -233,7 +222,7 @@ public class OverviewFragment extends ListFragment implements
     /**
      * Called when Status data received
      */
-    protected void onDataReceived() {
+    private void onDataReceived() {
         OverviewAdapter adapter = (OverviewAdapter) getListAdapter();
 
         adapter.setDownloads(downloads);
@@ -276,7 +265,10 @@ public class OverviewFragment extends ListFragment implements
 
         dialogOpen = true;
         try {
-            dialog.show(getFragmentManager(), CaptchaDialog.class.getName());
+            FragmentManager fragmentManager = getFragmentManager();
+            if (fragmentManager != null && !fragmentManager.isStateSaved()) {
+                dialog.show(fragmentManager, CaptchaDialog.class.getName());
+            }
         } catch (IllegalStateException e) {
             dialogOpen = false;
             // seems to appear when overview is already closed
@@ -307,14 +299,12 @@ public class OverviewFragment extends ListFragment implements
  */
 class OverviewAdapter extends BaseAdapter {
 
-    private final pyLoadApp app;
     private final int rowResID;
     private final LayoutInflater layoutInflater;
     private List<DownloadInfo> downloads;
 
-    public OverviewAdapter(final pyLoadApp app, final int rowResID,
-                           List<DownloadInfo> downloads) {
-        this.app = app;
+    OverviewAdapter(@NonNull final pyLoadApp app, final int rowResID,
+                    List<DownloadInfo> downloads) {
         this.rowResID = rowResID;
         this.downloads = downloads;
 
@@ -322,7 +312,7 @@ class OverviewAdapter extends BaseAdapter {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public void setDownloads(List<DownloadInfo> downloads) {
+    void setDownloads(List<DownloadInfo> downloads) {
         this.downloads = downloads;
         notifyDataSetChanged();
     }
@@ -399,7 +389,7 @@ class OverviewAdapter extends BaseAdapter {
         return false;
     }
 
-    static class ViewHolder {
+    private static class ViewHolder {
         private TextView name;
         private ProgressBar progress;
         private TextView size;

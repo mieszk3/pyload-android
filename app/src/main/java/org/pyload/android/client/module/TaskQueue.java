@@ -94,16 +94,6 @@ public class TaskQueue {
                     mHandler.post(task.getCritical());
                 }
 
-                if (task.hasExceptionMap()) {
-                    for (Entry<Throwable, Runnable> set : task
-                            .getExceptionMap().entrySet()) {
-                        if (t.getClass() == set.getKey().getClass()) {
-                            mHandler.post(set.getValue());
-                        }
-
-                    }
-                }
-
                 for (Entry<Throwable, Runnable> set : exceptionMap.entrySet()) {
                     if (t.getClass() == set.getKey().getClass()) {
                         mHandler.post(set.getValue());

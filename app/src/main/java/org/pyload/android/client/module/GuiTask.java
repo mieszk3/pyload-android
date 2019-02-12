@@ -1,25 +1,18 @@
 package org.pyload.android.client.module;
 
-import java.util.HashMap;
-
 public class GuiTask {
 
     private final Runnable task;
     private final Runnable success;
     //how often the task can be called
-    public int tries = 2;
-    private HashMap<Throwable, Runnable> exceptionMap;
+    int tries = 2;
     // called when anything goes wrong (optional)
     private Runnable critical;
 
     public GuiTask(Runnable task) {
         this.task = task;
         // Nop
-        this.success = new Runnable() {
-
-
-            public void run() {
-            }
+        this.success = () -> {
         };
     }
 
@@ -28,13 +21,7 @@ public class GuiTask {
         this.success = success;
     }
 
-    public GuiTask(Runnable task, Runnable success, HashMap<Throwable, Runnable> excHashMap) {
-        this.task = task;
-        this.success = success;
-        this.exceptionMap = excHashMap;
-    }
-
-    public Runnable getTask() {
+    Runnable getTask() {
         return task;
     }
 
@@ -42,25 +29,11 @@ public class GuiTask {
         return success;
     }
 
-    public boolean hasExceptionMap() {
-        return (exceptionMap != null && !exceptionMap.isEmpty());
-    }
-
-    public HashMap<Throwable, Runnable> getExceptionMap() {
-        return exceptionMap;
-    }
-
-    public void putException(Throwable t, Runnable r) {
-        if (exceptionMap == null) exceptionMap = new HashMap<Throwable, Runnable>();
-
-        exceptionMap.put(t, r);
-    }
-
-    public boolean hasCritical() {
+    boolean hasCritical() {
         return (critical != null);
     }
 
-    public Runnable getCritical() {
+    Runnable getCritical() {
         return critical;
     }
 

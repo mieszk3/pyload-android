@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.apache.thrift.TException;
 import org.pyload.android.client.R;
 import org.pyload.android.client.module.GuiTask;
 import org.pyload.android.client.module.SeparatedListAdapter;
@@ -74,10 +75,14 @@ public class SettingsFragment extends ListFragment {
         app.setProgress(true);
 
         GuiTask task = new GuiTask(() -> {
-            Client client = app.getClient();
-            generalData = client.getConfig();
-            pluginData = client.getPluginConfig();
-
+            Client client;
+            try {
+                client = app.getClient();
+                generalData = client.getConfig();
+                pluginData = client.getPluginConfig();
+            } catch (TException e) {
+                throw new RuntimeException(e);
+            }
         }, () -> {
             general.setData(generalData);
             plugins.setData(pluginData);
@@ -124,7 +129,7 @@ class SettingsAdapter extends BaseAdapter {
     private LayoutInflater layoutInflater;
     private ArrayList<Entry<String, ConfigSection>> data;
 
-    public SettingsAdapter(pyLoadApp app) {
+    SettingsAdapter(@NonNull pyLoadApp app) {
         layoutInflater = (LayoutInflater) app
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -185,7 +190,7 @@ class SettingsAdapter extends BaseAdapter {
         return convertView;
     }
 
-    static class ViewHolder {
+    private static class ViewHolder {
         private TextView name;
         private TextView desc;
     }
