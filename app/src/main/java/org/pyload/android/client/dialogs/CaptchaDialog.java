@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,6 +18,7 @@ import org.pyload.android.client.R;
 import org.pyload.android.client.pyLoad;
 import org.pyload.thrift.CaptchaTask;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 public class CaptchaDialog extends DialogFragment {
@@ -42,7 +42,7 @@ public class CaptchaDialog extends DialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View dialog = inflater.inflate(R.layout.captcha_dialog, container,
                 false);
@@ -57,26 +57,19 @@ public class CaptchaDialog extends DialogFragment {
 
         Button enter = dialog.findViewById(R.id.enter);
 
-        enter.setOnClickListener(new OnClickListener() {
-
-            public void onClick(View arg0) {
-                CaptchaDialog.this.onClick();
-                dismiss();
-            }
+        enter.setOnClickListener(v -> {
+            CaptchaDialog.this.onClick();
+            dismiss();
         });
 
         Button cancel = dialog.findViewById(R.id.cancel);
 
-        cancel.setOnClickListener(new OnClickListener() {
-
-            public void onClick(View arg0) {
-                dismiss();
-            }
-        });
+        cancel.setOnClickListener(arg0 -> dismiss());
 
         return dialog;
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
@@ -84,7 +77,7 @@ public class CaptchaDialog extends DialogFragment {
         return dialog;
     }
 
-    public void onClick() {
+    private void onClick() {
         ((pyLoad) getActivity()).setCaptchaResult(task.tid, text.getText().toString());
     }
 
