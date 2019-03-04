@@ -73,7 +73,7 @@ class AccountAdapter extends BaseAdapter {
     private List<AccountInfo> data;
 
     AccountAdapter(@NonNull final Context context) {
-        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        layoutInflater = LayoutInflater.from(context);
 
         data = new ArrayList<>();
     }

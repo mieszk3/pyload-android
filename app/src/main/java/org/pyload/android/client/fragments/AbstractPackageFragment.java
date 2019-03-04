@@ -1,6 +1,5 @@
 package org.pyload.android.client.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -123,7 +122,7 @@ public abstract class AbstractPackageFragment extends ExpandableListFragment
                         } catch (TException e) {
                             throw new RuntimeException(e);
                         }
-                    }, app.handleSuccess));
+                    }, app.getHandleSuccess()));
 
                     break;
                 case R.id.delete:
@@ -138,7 +137,7 @@ public abstract class AbstractPackageFragment extends ExpandableListFragment
                         } catch (TException e) {
                             throw new RuntimeException(e);
                         }
-                    }, app.handleSuccess));
+                    }, app.getHandleSuccess()));
 
                     break;
 
@@ -173,7 +172,7 @@ public abstract class AbstractPackageFragment extends ExpandableListFragment
                         } catch (TException e) {
                             throw new RuntimeException(e);
                         }
-                    }, app.handleSuccess));
+                    }, app.getHandleSuccess()));
 
                     break;
                 case R.id.delete:
@@ -187,7 +186,7 @@ public abstract class AbstractPackageFragment extends ExpandableListFragment
                         } catch (TException e) {
                             throw new RuntimeException(e);
                         }
-                    }, app.handleSuccess));
+                    }, app.getHandleSuccess()));
 
                     break;
 
@@ -207,7 +206,7 @@ public abstract class AbstractPackageFragment extends ExpandableListFragment
                         } catch (TException e) {
                             throw new RuntimeException(e);
                         }
-                    }, app.handleSuccess));
+                    }, app.getHandleSuccess()));
 
                     break;
 
@@ -235,7 +234,7 @@ public abstract class AbstractPackageFragment extends ExpandableListFragment
     }
 
     @Override
-    public boolean onChildClick(ExpandableListView parent, View v, int group,
+    public boolean onChildClick(@NonNull ExpandableListView parent, @NonNull View v, int group,
                                 int child, long id) {
 
         PackageData pack;
@@ -256,8 +255,8 @@ public abstract class AbstractPackageFragment extends ExpandableListFragment
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
-                                    ContextMenuInfo menuInfo) {
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v,
+                                    @NonNull ContextMenuInfo menuInfo) {
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.package_context_menu, menu);
         menu.setHeaderTitle(R.string.choose_action);
@@ -325,8 +324,7 @@ class PackageListAdapter extends BaseExpandableListAdapter {
         this.groupRes = groupRes;
         this.childRes = childRes;
 
-        layoutInflater = (LayoutInflater) app
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        layoutInflater = LayoutInflater.from(app);
     }
 
     public void setData(List<PackageData> data) {

@@ -131,7 +131,7 @@ class ConfigItemView extends LinearLayout {
     private Spinner sp = null;
     private ArrayList<String> choices = null;
 
-    public ConfigItemView(Context context, ConfigItem item) {
+    public ConfigItemView(Context context, @NonNull ConfigItem item) {
         super(context);
         this.item = item;
 

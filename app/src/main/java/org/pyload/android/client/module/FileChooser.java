@@ -20,16 +20,16 @@ import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class FileChooser extends ListActivity {
 
     public final static int CHOOSE_FILE = 0;
     public final static String SD_CARD = Environment.getExternalStorageDirectory().getPath();
-
     private File currentDir;
     private FileArrayAdapter adapter;
 
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         currentDir = new File(SD_CARD);
         fill(currentDir);
@@ -63,7 +63,7 @@ public class FileChooser extends ListActivity {
         this.setListAdapter(adapter);
     }
 
-
+    @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         // TODO Auto-generated method stub
         super.onListItemClick(l, v, position, id);
@@ -109,6 +109,7 @@ class Option implements Comparable<Option> {
         return path;
     }
 
+    @Override
     public int compareTo(Option o) {
         if (this.name != null)
             return this.name.toLowerCase().compareTo(o.getName().toLowerCase());
@@ -118,29 +119,31 @@ class Option implements Comparable<Option> {
 }
 
 class FileArrayAdapter extends ArrayAdapter<Option> {
-
-    private Context c;
+    @NonNull
+    private final Context c;
     private int id;
-    private List<Option> items;
+    @NonNull
+    private final List<Option> items;
 
-    FileArrayAdapter(Context context, int textViewResourceId,
-                     List<Option> objects) {
+    FileArrayAdapter(@NonNull Context context, int textViewResourceId,
+                     @NonNull List<Option> objects) {
         super(context, textViewResourceId, objects);
         c = context;
         id = textViewResourceId;
         items = objects;
     }
 
+    @Override
     public Option getItem(int i) {
         return items.get(i);
     }
 
     @NonNull
-    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+    @Override
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View v = convertView;
         if (v == null) {
-            LayoutInflater vi = (LayoutInflater) c
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater vi = LayoutInflater.from(c);
             v = vi.inflate(id, null);
         }
         final Option o = items.get(position);

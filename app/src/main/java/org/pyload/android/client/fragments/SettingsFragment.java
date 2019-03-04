@@ -1,6 +1,5 @@
 package org.pyload.android.client.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -130,8 +129,7 @@ class SettingsAdapter extends BaseAdapter {
     private ArrayList<Entry<String, ConfigSection>> data;
 
     SettingsAdapter(@NonNull pyLoadApp app) {
-        layoutInflater = (LayoutInflater) app
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        layoutInflater = LayoutInflater.from(app);
 
         data = new ArrayList<>();
     }

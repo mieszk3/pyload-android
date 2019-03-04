@@ -1,6 +1,5 @@
 package org.pyload.android.client.fragments;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.os.Bundle;
@@ -100,7 +99,7 @@ public class OverviewFragment extends ListFragment implements
             } catch (TException e) {
                 throw new RuntimeException(e);
             }
-        }, app.handleSuccess)));
+        }, app.getHandleSuccess())));
 
         // toggle reconnect on click
         reconnect.setOnClickListener(v1 -> app.addTask(new GuiTask(() -> {
@@ -111,7 +110,7 @@ public class OverviewFragment extends ListFragment implements
             } catch (TException e) {
                 throw new RuntimeException(e);
             }
-        }, app.handleSuccess)));
+        }, app.getHandleSuccess())));
 
         if (status != null && downloads != null)
             onDataReceived();
@@ -304,8 +303,7 @@ class OverviewAdapter extends BaseAdapter {
         this.rowResID = rowResID;
         this.downloads = downloads;
 
-        layoutInflater = (LayoutInflater) app
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        layoutInflater = LayoutInflater.from(app);
     }
 
     void setDownloads(List<DownloadInfo> downloads) {
