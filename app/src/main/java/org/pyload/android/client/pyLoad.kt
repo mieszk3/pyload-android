@@ -215,14 +215,13 @@ class pyLoad : FragmentTabsPager() {
                     val name = data.getStringExtra("name")
                     val link_array = data.getStringExtra("links").trim { it <= ' ' }
                             .split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                    val dest: Destination
+                    val dest: Destination = if (data.getIntExtra("dest", 0) == 0) {
+                        Destination.Queue
+                    } else {
+                        Destination.Collector
+                    }
                     val filepath = data.getStringExtra("filepath")
                     val filename = data.getStringExtra("filename")
-
-                    if (data.getIntExtra("dest", 0) == 0)
-                        dest = Destination.Queue
-                    else
-                        dest = Destination.Collector
 
                     val links = ArrayList<String>()
                     for (link_row in link_array)
