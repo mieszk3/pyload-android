@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:baselineAligned="false"
@@ -9,29 +10,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:baselineAligned="false"
         android:orientation="horizontal"
         android:paddingTop="5dip"
         android:paddingBottom="5dip">
 
         <LinearLayout
-            android:id="@+id/linearLayout1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="fill_horizontal"
             android:layout_weight="1"
-            android:gravity="left">
+            android:gravity="center_horizontal">
 
             <TextView
                 android:id="@+id/status_server"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:drawableLeft="@drawable/clock"
+                android:drawableStart="@drawable/clock"
                 android:drawablePadding="5dip"
-                android:text="@string/n_a" />
+                tools:text="@string/n_a" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linearLayout1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="fill_horizontal"
@@ -42,13 +42,12 @@
                 android:id="@+id/reconnect"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:drawableLeft="@drawable/redo"
+                android:drawableStart="@drawable/redo"
                 android:drawablePadding="5dip"
-                android:text="@string/n_a" />
+                tools:text="@string/n_a" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linearLayout1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="fill_horizontal"
@@ -59,42 +58,40 @@
                 android:id="@+id/speed"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:drawableLeft="@drawable/download"
+                android:drawableStart="@drawable/download"
                 android:drawablePadding="5dip"
-                android:text="@string/n_a" />
+                tools:text="@string/n_a" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linearLayout1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="fill_horizontal"
             android:layout_weight="1"
-            android:gravity="right">
+            android:gravity="center_horizontal">
 
             <TextView
                 android:id="@+id/active"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:drawableLeft="@drawable/todo"
+                android:drawableStart="@drawable/todo"
                 android:drawablePadding="5dip"
-                android:text="0 / 0" />
+                tools:text="0 / 0" />
         </LinearLayout>
     </LinearLayout>
 
 
     <ListView
-        android:id="@+id/android:list"
+        android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <TextView
-        android:id="@+id/android:empty"
+        android:id="@android:id/empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="-30dp"
         android:gravity="center"
         android:text="@string/no_downloads"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
-</LinearLayout> 
+</LinearLayout>
