@@ -91,7 +91,7 @@ class pyLoad : FragmentTabsPager() {
                 val textView = view.findViewById<View>(android.R.id.title)
                 if (textView is TextView) {
                     textView.gravity = Gravity.CENTER
-                    textView.setSingleLine(false)
+                    textView.isSingleLine = false
 
                     textView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT
                     textView.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT
@@ -213,7 +213,7 @@ class pyLoad : FragmentTabsPager() {
             AddLinksActivity.NEW_PACKAGE -> when (resultCode) {
                 Activity.RESULT_OK -> if (data != null) {
                     val name = data.getStringExtra("name")
-                    val link_array = data.getStringExtra("links").trim { it <= ' ' }
+                    val link_array = (data.getStringExtra("links") ?: "").trim { it <= ' ' }
                             .split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                     val dest: Destination = if (data.getIntExtra("dest", 0) == 0) {
                         Destination.Queue
@@ -257,7 +257,7 @@ class pyLoad : FragmentTabsPager() {
                             throw RuntimeException(e)
                         }
 
-                        if (filename != null && filepath != "") {
+                        if (filename != null && !filepath.isNullOrEmpty()) {
 
                             val file = File(filepath)
                             try {
@@ -301,11 +301,11 @@ class pyLoad : FragmentTabsPager() {
     private fun initLocale() {
 
         val language = app.prefs.getString("language", "")
-        val locale: Locale
-        locale = if ("" == language)
+        val locale = if (language.isNullOrEmpty()) {
             Locale.getDefault()
-        else
+        } else {
             Locale(language)
+        }
 
         Log.d("pyLoad", "Change locale to: $locale")
         val config = Configuration(resources.configuration)

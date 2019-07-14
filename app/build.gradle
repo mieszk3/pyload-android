@@ -3,13 +3,13 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "28.0.3"
+    compileSdkVersion 29
+    buildToolsVersion "29.0.1"
 
     defaultConfig {
         applicationId "org.pyload.android.client"
         minSdkVersion 28
-        targetSdkVersion 28
+        targetSdkVersion 29
     }
 
     buildTypes {
@@ -29,10 +29,10 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
     implementation 'org.slf4j:slf4j-android:1.7.26'
     implementation 'org.apache.thrift:libthrift:0.8.0' //DO NOT UPDATE THIS LIBRARY
-    implementation 'commons-codec:commons-codec:1.12'
+    implementation 'commons-codec:commons-codec:20041127.091804'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 repositories {

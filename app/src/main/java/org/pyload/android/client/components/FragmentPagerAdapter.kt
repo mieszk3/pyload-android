@@ -30,7 +30,7 @@ import androidx.viewpager.widget.PagerAdapter
  * represents each page as a [Fragment] that is persistently kept in the
  * fragment manager as long as the user can return to the page.
  */
-abstract class FragmentPagerAdapter internal constructor(private val mFragmentManager: FragmentManager) : PagerAdapter() {
+abstract class FragmentPagerAdapter internal constructor(protected val mFragmentManager: FragmentManager) : PagerAdapter() {
     private var mCurTransaction: FragmentTransaction? = null
     private var container: Int = 0
 

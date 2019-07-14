@@ -82,7 +82,9 @@ class TaskQueue(private val app: pyLoadApp, private val mHandler: Handler, priva
                 app.setLastException(t)
 
                 if (task.hasCritical()) {
-                    mHandler.post(task.critical)
+                    task.critical?.let {
+                        mHandler.post(it)
+                    }
                 }
 
                 for ((key, value) in exceptionMap) {

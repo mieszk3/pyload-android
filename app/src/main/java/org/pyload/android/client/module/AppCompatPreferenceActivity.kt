@@ -89,7 +89,7 @@ abstract class AppCompatPreferenceActivity : PreferenceActivity() {
         delegate.setTitle(title)
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
+    override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         delegate.onConfigurationChanged(newConfig)
     }

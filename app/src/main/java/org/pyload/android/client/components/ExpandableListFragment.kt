@@ -181,7 +181,7 @@ open class ExpandableListFragment : Fragment(), OnCreateContextMenuListener, Exp
         return false
     }
 
-    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenuInfo) {}
+    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenuInfo?) {}
 
     companion object {
         private const val INTERNAL_EMPTY_ID = 0x00ff0001

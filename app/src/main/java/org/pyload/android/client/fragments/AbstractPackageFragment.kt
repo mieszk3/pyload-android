@@ -29,9 +29,9 @@ abstract class AbstractPackageFragment : ExpandableListFragment(), TabHandler {
         } else if (b == null) {
             -1
         } else if (a is PackageData && b is PackageData) {
-            java.lang.Short.compare(a.order, b.order)
+            a.order.compareTo(b.order)
         } else if (a is FileData && b is FileData) {
-            java.lang.Short.compare(a.order, b.order)
+            a.order.compareTo(b.order)
         } else {
             0
         }
@@ -207,7 +207,7 @@ abstract class AbstractPackageFragment : ExpandableListFragment(), TabHandler {
     }
 
     override fun onCreateContextMenu(menu: ContextMenu, v: View,
-                                     menuInfo: ContextMenuInfo) {
+                                     menuInfo: ContextMenuInfo?) {
         val activity = activity
         if (activity != null) {
             val inflater = activity.menuInflater

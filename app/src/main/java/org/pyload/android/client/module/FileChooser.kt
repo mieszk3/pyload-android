@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.ListActivity
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.view.LayoutInflater
@@ -19,14 +20,23 @@ class FileChooser : ListActivity() {
     private lateinit var currentDir: File
     private lateinit var adapter: FileArrayAdapter
 
+    @Suppress("DEPRECATION")
+    private val sdCard: String by lazy {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.path ?: ""
+        } else {
+            Environment.getExternalStorageDirectory().path
+        }
+    }
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        currentDir = File(SD_CARD)
+        currentDir = File(sdCard)
         fill(currentDir)
     }
 
     private fun fill(f: File) {
-        val dirs = f.listFiles()
+        val dirs = f.listFiles() ?: emptyArray()
         this.title = getString(R.string.current_dir) + f.name
         val dir = ArrayList<Option>()
         val fls = ArrayList<Option>()
@@ -47,7 +57,7 @@ class FileChooser : ListActivity() {
         fls.sort()
         dir.addAll(fls)
         if (!f.name.equals("sdcard", ignoreCase = true)) {
-            dir.add(0, Option("..", getString(R.string.parent_dir), f.parent))
+            dir.add(0, Option("..", getString(R.string.parent_dir), f.parent ?: ""))
         }
         adapter = FileArrayAdapter(this@FileChooser, R.layout.file_view,
                 dir)
@@ -78,7 +88,6 @@ class FileChooser : ListActivity() {
 
     companion object {
         const val CHOOSE_FILE = 0
-        val SD_CARD: String = Environment.getExternalStorageDirectory().path
     }
 }
 

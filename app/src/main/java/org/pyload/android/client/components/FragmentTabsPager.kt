@@ -95,7 +95,7 @@ abstract class FragmentTabsPager : AppCompatActivity() {
             mContext = activity
             mTabHost.setOnTabChangedListener(this)
             mViewPager.adapter = this
-            mViewPager.setOnPageChangeListener(this)
+            mViewPager.addOnPageChangeListener(this)
         }
 
         fun addTab(tabSpec: TabHost.TabSpec, clss: Class<*>, args: Bundle?) {
@@ -113,8 +113,9 @@ abstract class FragmentTabsPager : AppCompatActivity() {
         override fun getItem(position: Int): Fragment {
             val info = mTabs[position]
 
-            val frag = Fragment.instantiate(mContext,
-                    info.clss.name, info.args)
+            val frag = mFragmentManager.fragmentFactory.instantiate(mContext.classLoader, info.clss.name).apply {
+                arguments = info.args
+            }
             if (frag is TabHandler) {
                 frag.setPosition(position)
             }

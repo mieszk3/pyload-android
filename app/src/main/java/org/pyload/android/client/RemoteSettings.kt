@@ -10,10 +10,9 @@ class RemoteSettings : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.remote_settings)
 
-        val actionBar = supportActionBar
-        if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true)
-            actionBar.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.run {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
         }
     }
 

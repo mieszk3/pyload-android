@@ -143,7 +143,7 @@ internal class ConfigItemView(context: Context, private val item: ConfigItem) : 
 
     init {
 
-        orientation = LinearLayout.VERTICAL
+        orientation = VERTICAL
 
         if (item.type != "bool") {
             val tv = TextView(context)
