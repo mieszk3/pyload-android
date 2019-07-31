@@ -34,7 +34,7 @@ class pyLoadApp : Application() {
     lateinit var prefs: SharedPreferences
     lateinit var cm: ConnectivityManager
     private var client: Client? = null
-    // setted by main activity
+    // set by main activity
     private lateinit var taskQueue: TaskQueue
     private var lastException: Throwable? = null
     private lateinit var main: pyLoad
@@ -170,8 +170,7 @@ class pyLoadApp : Application() {
         client = null
         // The task queue will log an error with exception
 
-        val exception = lastException
-        when (exception) {
+        when (val exception = lastException) {
             is TTransportException -> {
                 val t = Toast.makeText(this, R.string.lost_connection,
                         Toast.LENGTH_SHORT)
@@ -282,11 +281,8 @@ class pyLoadApp : Application() {
         }
 
         if (state) {
-            val inflater = LayoutInflater.from(this)
-            val progress = inflater.inflate(R.layout.progress_wheel, null)
-
+            val progress = LayoutInflater.from(this).inflate(R.layout.progress_wheel, null)
             main.refreshItem?.actionView = progress
-
         } else {
             item.actionView = null
         }

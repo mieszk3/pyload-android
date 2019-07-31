@@ -1,7 +1,6 @@
 package org.pyload.android.client.module
 
 object Utils {
-    @JvmStatic
     fun formatSize(size: Long): String {
         var format = size.toDouble()
         var steps = 0

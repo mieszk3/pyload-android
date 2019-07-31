@@ -57,7 +57,6 @@ object Eula {
      * @param activity The Activity to finish if the user rejects the EULA.
      * @return Whether the user has agreed already.
      */
-    @JvmStatic
     fun show(activity: Activity): Boolean {
         val preferences = activity.getSharedPreferences(PREFERENCES_EULA,
                 Activity.MODE_PRIVATE)

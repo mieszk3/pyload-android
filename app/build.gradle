@@ -32,7 +32,8 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
     implementation 'org.slf4j:slf4j-android:1.7.26'
     implementation 'org.apache.thrift:libthrift:0.8.0' //DO NOT UPDATE THIS LIBRARY
-    implementation 'commons-codec:commons-codec:20041127.091804'
+    //noinspection GradleDependency
+    implementation 'commons-codec:commons-codec:1.13'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 repositories {
