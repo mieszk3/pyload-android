@@ -8,9 +8,8 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
-import android.view.*
-import android.widget.TextView
-import androidx.core.content.ContextCompat
+import android.view.Menu
+import android.view.MenuItem
 import org.apache.thrift.TException
 import org.pyload.android.client.components.FragmentTabsPager
 import org.pyload.android.client.dialogs.AccountDialog
@@ -53,49 +52,11 @@ class pyLoad : FragmentTabsPager() {
         app.cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         app.init(this)
 
-        val tab_pyload: Int
-        val tab_queue: Int
-        val tab_collector: Int
-        if (app.prefs.getBoolean("invert_tabs", false)) {
-            tab_pyload = R.drawable.ic_tab_pyload_inverted
-            tab_queue = R.drawable.ic_tab_queue_inverted
-            tab_collector = R.drawable.ic_tab_collector_inverted
-        } else {
-            tab_pyload = R.drawable.ic_tab_pyload
-            tab_queue = R.drawable.ic_tab_queue
-            tab_collector = R.drawable.ic_tab_collector
-        }
+        mTabsAdapter.addTab(getString(R.string.overview), OverviewFragment::class.java)
 
-        val overviewTitle: String = getString(R.string.overview)
-        val overviewSpec = mTabHost.newTabSpec(overviewTitle).setIndicator(overviewTitle,
-                ContextCompat.getDrawable(this, tab_pyload))
-        mTabsAdapter.addTab(overviewSpec, OverviewFragment::class.java, null)
+        mTabsAdapter.addTab(getString(R.string.queue), QueueFragment::class.java)
 
-        val queueTitle = getString(R.string.queue)
-        val queueSpec = mTabHost.newTabSpec(queueTitle).setIndicator(queueTitle,
-                ContextCompat.getDrawable(this, tab_queue))
-        mTabsAdapter.addTab(queueSpec, QueueFragment::class.java, null)
-
-        val collectorTitle = getString(R.string.collector)
-        val collectorSpec = mTabHost.newTabSpec(collectorTitle).setIndicator(collectorTitle,
-                ContextCompat.getDrawable(this, tab_collector))
-        mTabsAdapter.addTab(collectorSpec, CollectorFragment::class.java, null)
-
-        val tabCount = mTabHost.tabWidget.tabCount
-        for (i in 0 until tabCount) {
-            val view = mTabHost.tabWidget.getChildTabViewAt(i)
-            if (view != null) {
-                val textView = view.findViewById<View>(android.R.id.title)
-                if (textView is TextView) {
-                    textView.gravity = Gravity.CENTER
-                    textView.isSingleLine = false
-                    textView.isAllCaps = true
-
-                    textView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT
-                    textView.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT
-                }
-            }
-        }
+        mTabsAdapter.addTab(getString(R.string.collector), CollectorFragment::class.java)
     }
 
     override fun onStart() {

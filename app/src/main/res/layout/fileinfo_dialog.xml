@@ -138,7 +138,7 @@
     </RelativeLayout>
 
     <Button
-        style="?android:attr/buttonBarButtonStyle"
+        style="?attr/buttonBarButtonStyle"
         android:id="@+id/close"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
