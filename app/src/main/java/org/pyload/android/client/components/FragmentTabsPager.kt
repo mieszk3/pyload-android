@@ -123,7 +123,6 @@ abstract class FragmentTabsPager : AppCompatActivity() {
             return frag
         }
 
-
         override fun onTabChanged(tabId: String?) {
             val position = mTabHost.currentTab
             mViewPager.currentItem = position

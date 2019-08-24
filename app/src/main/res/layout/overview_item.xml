@@ -61,7 +61,6 @@
             android:gravity="end"
             android:text="@string/n_a"
             android:textColor="@android:color/black" />
-
     </LinearLayout>
 
     <LinearLayout

@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
 import android.view.*
-import android.widget.TabHost
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import org.apache.thrift.TException
@@ -54,9 +53,6 @@ class pyLoad : FragmentTabsPager() {
         app.cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         app.init(this)
 
-        var spec: TabHost.TabSpec // Resusable TabSpec for each tab
-        var title: String = getString(R.string.overview)
-
         val tab_pyload: Int
         val tab_queue: Int
         val tab_collector: Int
@@ -70,19 +66,20 @@ class pyLoad : FragmentTabsPager() {
             tab_collector = R.drawable.ic_tab_collector
         }
 
-        spec = mTabHost.newTabSpec(title).setIndicator(title,
+        val overviewTitle: String = getString(R.string.overview)
+        val overviewSpec = mTabHost.newTabSpec(overviewTitle).setIndicator(overviewTitle,
                 ContextCompat.getDrawable(this, tab_pyload))
-        mTabsAdapter.addTab(spec, OverviewFragment::class.java, null)
+        mTabsAdapter.addTab(overviewSpec, OverviewFragment::class.java, null)
 
-        title = getString(R.string.queue)
-        spec = mTabHost.newTabSpec(title).setIndicator(title,
+        val queueTitle = getString(R.string.queue)
+        val queueSpec = mTabHost.newTabSpec(queueTitle).setIndicator(queueTitle,
                 ContextCompat.getDrawable(this, tab_queue))
-        mTabsAdapter.addTab(spec, QueueFragment::class.java, null)
+        mTabsAdapter.addTab(queueSpec, QueueFragment::class.java, null)
 
-        title = getString(R.string.collector)
-        spec = mTabHost.newTabSpec(title).setIndicator(title,
+        val collectorTitle = getString(R.string.collector)
+        val collectorSpec = mTabHost.newTabSpec(collectorTitle).setIndicator(collectorTitle,
                 ContextCompat.getDrawable(this, tab_collector))
-        mTabsAdapter.addTab(spec, CollectorFragment::class.java, null)
+        mTabsAdapter.addTab(collectorSpec, CollectorFragment::class.java, null)
 
         val tabCount = mTabHost.tabWidget.tabCount
         for (i in 0 until tabCount) {
@@ -92,6 +89,7 @@ class pyLoad : FragmentTabsPager() {
                 if (textView is TextView) {
                     textView.gravity = Gravity.CENTER
                     textView.isSingleLine = false
+                    textView.isAllCaps = true
 
                     textView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT
                     textView.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT
@@ -145,8 +143,9 @@ class pyLoad : FragmentTabsPager() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu, menu)
-        refreshItem = menu.findItem(R.id.refresh)
-        refreshItem!!.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+        refreshItem = menu.findItem(R.id.refresh)?.also {
+            it.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+        }
         menu.findItem(R.id.add_links).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
 
         return true
@@ -282,6 +281,7 @@ class pyLoad : FragmentTabsPager() {
                     }, app.handleSuccess))
                 }
                 else -> {
+                    // do nothing
                 }
             }
 
