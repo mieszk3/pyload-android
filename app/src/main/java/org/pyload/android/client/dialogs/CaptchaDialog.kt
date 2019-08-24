@@ -10,8 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.DialogFragment
+import kotlinx.android.synthetic.main.captcha_dialog.*
 import org.apache.commons.codec.binary.Base64
 import org.pyload.android.client.R
 import org.pyload.android.client.pyLoad
@@ -21,7 +21,6 @@ class CaptchaDialog : DialogFragment() {
 
     private var listener: OnDismissListener? = null
     private lateinit var task: CaptchaTask
-    private lateinit var text: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +31,6 @@ class CaptchaDialog : DialogFragment() {
                               savedInstanceState: Bundle?): View? {
         val dialog = inflater.inflate(R.layout.captcha_dialog, container,
                 false)
-        text = dialog.findViewById(R.id.text)
 
         val image = dialog.findViewById<ImageView>(R.id.image)
 
@@ -76,7 +74,6 @@ class CaptchaDialog : DialogFragment() {
     }
 
     companion object {
-        @JvmStatic
         fun newInstance(task: CaptchaTask): CaptchaDialog {
             val dialog = CaptchaDialog()
             val args = Bundle()

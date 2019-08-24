@@ -21,7 +21,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager.widget.ViewPager
-import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.fragment_tabs_pager.*
 import org.pyload.android.client.R
 
 /**
@@ -30,12 +30,10 @@ import org.pyload.android.client.R
  * to move between the tabs.
  */
 abstract class FragmentTabsPager : AppCompatActivity() {
-    private lateinit var mTabLayout: TabLayout
-    private lateinit var mViewPager: ViewPager
     protected lateinit var mTabsAdapter: TabsAdapter
 
     val currentTab: Int
-        get() = mViewPager.currentItem
+        get() = pager.currentItem
 
     val currentFragment: Fragment?
         get() = mTabsAdapter.getFragment(currentTab)
@@ -45,21 +43,18 @@ abstract class FragmentTabsPager : AppCompatActivity() {
 
         setContentView(R.layout.fragment_tabs_pager)
 
-        mViewPager = findViewById(R.id.pager)
+        tabs.setupWithViewPager(pager)
 
-        mTabLayout = findViewById(R.id.tabs)
-        mTabLayout.setupWithViewPager(mViewPager)
-
-        mTabsAdapter = TabsAdapter(this, mTabLayout, mViewPager)
+        mTabsAdapter = TabsAdapter(this, pager)
 
         if (savedInstanceState != null) {
-            mViewPager.currentItem = savedInstanceState.getInt("tab")
+            pager.currentItem = savedInstanceState.getInt("tab")
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt("tab", mViewPager.currentItem)
+        outState.putInt("tab", pager.currentItem)
     }
 
     /**
@@ -73,8 +68,8 @@ abstract class FragmentTabsPager : AppCompatActivity() {
      * switch to the correct paged in the ViewPager whenever the selected tab
      * changes.
      */
-    class TabsAdapter internal constructor(activity: FragmentActivity, private val tabLayout: TabLayout,
-                                           private val viewPager: ViewPager) : FragmentPagerAdapter(activity.supportFragmentManager), ViewPager.OnPageChangeListener {
+    class TabsAdapter internal constructor(activity: FragmentActivity,
+                                           viewPager: ViewPager) : FragmentPagerAdapter(activity.supportFragmentManager), ViewPager.OnPageChangeListener {
         private val mContext: Context
         private val mTabs = ArrayList<TabInfo>()
         private var selected = 0
@@ -113,7 +108,6 @@ abstract class FragmentTabsPager : AppCompatActivity() {
         }
 
         override fun onPageSelected(position: Int) {
-
             val pos = getFragment(position)
             if (pos is TabHandler) {
                 pos.onSelected()

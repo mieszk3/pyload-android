@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment
 open class ExpandableListFragment : Fragment(), OnCreateContextMenuListener, ExpandableListView.OnChildClickListener, ExpandableListView.OnGroupCollapseListener, ExpandableListView.OnGroupExpandListener {
     private val mHandler = Handler()
     private val mRequestFocus = Runnable { mList?.focusableViewAvailable(mList) }
-    private val mOnChildClickListener = this@ExpandableListFragment
 
     /**
      * Get the ListAdapter associated with this activity's ListView.
@@ -53,7 +52,7 @@ open class ExpandableListFragment : Fragment(), OnCreateContextMenuListener, Exp
 
         val lv = ExpandableListView(context)
         lv.id = android.R.id.list
-        lv.setDrawSelectorOnTop(false)
+        lv.isDrawSelectorOnTop = false
         root.addView(lv, FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
 
@@ -158,7 +157,7 @@ open class ExpandableListFragment : Fragment(), OnCreateContextMenuListener, Exp
             }
         }
         mListShown = true
-        mList?.setOnChildClickListener(mOnChildClickListener)
+        mList?.setOnChildClickListener(this)
         val listAdapter = expandableListAdapter
         if (listAdapter != null) {
             setListAdapter(listAdapter)

@@ -17,7 +17,6 @@
 package org.pyload.android.client.components
 
 import android.os.Parcelable
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -58,15 +57,9 @@ abstract class FragmentPagerAdapter internal constructor(protected val mFragment
         val name = makeFragmentName(container.id, position)
         var fragment = mFragmentManager.findFragmentByTag(name)
         if (fragment != null) {
-            if (DEBUG) {
-                Log.v(TAG, "Attaching item #$position: f=$fragment")
-            }
             transaction.attach(fragment)
         } else {
             fragment = getItem(position)
-            if (DEBUG) {
-                Log.v(TAG, "Adding item #$position: f=$fragment")
-            }
             transaction.add(container.id, fragment,
                     makeFragmentName(container.id, position))
         }
@@ -80,10 +73,6 @@ abstract class FragmentPagerAdapter internal constructor(protected val mFragment
                 val beginTransaction = mFragmentManager.beginTransaction()
                 mCurTransaction = beginTransaction
                 beginTransaction
-            }
-            if (DEBUG) {
-                Log.v(TAG, "Detaching item #" + position + ": f=" + any + " v="
-                        + any.view)
             }
             transaction.detach(any)
         }
@@ -109,9 +98,6 @@ abstract class FragmentPagerAdapter internal constructor(protected val mFragment
     override fun restoreState(state: Parcelable?, loader: ClassLoader?) {}
 
     companion object {
-        private const val TAG = "FragmentPagerAdapter"
-        private const val DEBUG = false
-
         private fun makeFragmentName(viewId: Int, index: Int): String {
             return "android:switcher:$viewId:$index"
         }

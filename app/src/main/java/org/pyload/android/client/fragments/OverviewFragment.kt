@@ -124,10 +124,8 @@ class OverviewFragment : ListFragment(), OnDismissListener, TabHandler {
 
     override fun onCreateContextMenu(menu: ContextMenu, v: View,
                                      menuInfo: ContextMenuInfo?) {
-        val activity = activity
-        if (activity != null) {
-            val inflater = activity.menuInflater
-            inflater.inflate(R.menu.overview_context_menu, menu)
+        activity?.run {
+            menuInflater.inflate(R.menu.overview_context_menu, menu)
             menu.setHeaderTitle(R.string.choose_action)
         }
     }
@@ -173,8 +171,9 @@ class OverviewFragment : ListFragment(), OnDismissListener, TabHandler {
 
     private fun startUpdate() {
         // already update running
-        if (update)
+        if (update) {
             return
+        }
         interval = try {
             Integer.parseInt(app.prefs.getString("refresh_rate", "5")!!)
         } catch (e: NumberFormatException) {
@@ -214,8 +213,9 @@ class OverviewFragment : ListFragment(), OnDismissListener, TabHandler {
     }
 
     fun refresh() {
-        if (!app.hasConnection())
+        if (!app.hasConnection()) {
             return
+        }
 
         val task = GuiTask(Runnable {
             try {
@@ -238,8 +238,9 @@ class OverviewFragment : ListFragment(), OnDismissListener, TabHandler {
 
     private fun showDialog() {
 
-        if (dialogOpen || captcha == null)
+        if (dialogOpen || captcha == null) {
             return
+        }
 
         val dialog = CaptchaDialog.newInstance(captcha!!)
         lastCaptcha = captcha!!.tid.toInt()

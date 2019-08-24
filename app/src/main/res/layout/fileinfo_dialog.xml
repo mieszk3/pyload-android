@@ -31,8 +31,8 @@
             android:id="@+id/labelPlugin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/plugin"
+            android:layout_alignParentStart="true"
             android:layout_toStartOf="@+id/plugin"
             android:text="@string/plugin" />
 
@@ -40,8 +40,8 @@
             android:id="@+id/plugin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_below="@+id/name"
+            android:layout_alignParentEnd="true"
             android:gravity="end"
             android:text="@string/n_a" />
 
@@ -49,8 +49,8 @@
             android:id="@+id/labelStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/status"
+            android:layout_alignParentStart="true"
             android:layout_toStartOf="@+id/status"
             android:text="@string/status" />
 
@@ -58,8 +58,8 @@
             android:id="@+id/status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_below="@+id/plugin"
+            android:layout_alignParentEnd="true"
             android:gravity="end"
             android:text="@string/n_a" />
 
@@ -67,8 +67,8 @@
             android:id="@+id/labelSize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/size"
+            android:layout_alignParentStart="true"
             android:layout_toStartOf="@+id/size"
             android:text="@string/size" />
 
@@ -76,8 +76,8 @@
             android:id="@+id/size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_below="@+id/status"
+            android:layout_alignParentEnd="true"
             android:gravity="end"
             android:text="@string/n_a" />
 
@@ -85,8 +85,8 @@
             android:id="@+id/labelerror"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/error"
+            android:layout_alignParentStart="true"
             android:layout_toStartOf="@+id/error"
             android:text="@string/error" />
 
@@ -94,8 +94,8 @@
             android:id="@+id/error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_below="@+id/size"
+            android:layout_alignParentEnd="true"
             android:gravity="end"
             android:text="@string/n_a" />
 
@@ -103,8 +103,8 @@
             android:id="@+id/labelPackage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/packageValue"
+            android:layout_alignParentStart="true"
             android:layout_toStartOf="@+id/packageValue"
             android:text="@string/labelPackage" />
 
@@ -112,8 +112,8 @@
             android:id="@+id/packageValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_below="@+id/error"
+            android:layout_alignParentEnd="true"
             android:gravity="end"
             android:text="@string/n_a" />
 
@@ -121,8 +121,8 @@
             android:id="@+id/labelFolder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/folder"
+            android:layout_alignParentStart="true"
             android:layout_toStartOf="@+id/folder"
             android:text="@string/folder" />
 
@@ -130,16 +130,15 @@
             android:id="@+id/folder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_below="@+id/packageValue"
+            android:layout_alignParentEnd="true"
             android:gravity="end"
             android:text="@string/n_a" />
-
     </RelativeLayout>
 
     <Button
-        style="?attr/buttonBarButtonStyle"
         android:id="@+id/close"
+        style="?attr/buttonBarButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/close" />
