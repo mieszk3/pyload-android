@@ -26,7 +26,7 @@ class ConfigSectionFragment constructor(
     private lateinit var app: pyLoadApp
     private lateinit var section: ConfigSection
     private var type: String? = null
-    private val items = HashMap<String, ConfigItemView>()
+    private val items: MutableMap<String, ConfigItemView> = HashMap()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -48,15 +48,16 @@ class ConfigSectionFragment constructor(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val activity = activity
-        if (activity != null) {
-            app = activity.applicationContext as pyLoadApp
+        activity?.run {
+            val appContext = applicationContext
+            if (appContext is pyLoadApp) {
+                app = appContext
+            }
         }
 
-        val extras = arguments
-        if (extras != null) {
-            section = extras.getSerializable("section") as ConfigSection
-            type = extras.getString("type")
+        arguments?.run {
+            section = getSerializable("section") as ConfigSection
+            type = getString("type")
         }
     }
 
@@ -115,7 +116,7 @@ class ConfigSectionFragment constructor(
 internal class ConfigItemView(context: Context, private val item: ConfigItem) : LinearLayout(context) {
     private val v: View
     private var sp: Spinner? = null
-    private var choices: ArrayList<String>? = null
+    private var choices: MutableList<String>? = null
 
     /**
      * Returns the string representation of the config item
@@ -180,8 +181,8 @@ internal class ConfigItemView(context: Context, private val item: ConfigItem) : 
                 v = cb
             }
             item.type.contains(";") -> {
-                sp = Spinner(context).let { spinner ->
-                    choices = ArrayList<String>().apply {
+                sp = Spinner(context).also { spinner ->
+                    choices = mutableListOf<String>().apply {
                         addAll(item.type.split(";".toRegex()).dropLastWhile { it.isEmpty() })
 
                         val adp = ArrayAdapter(context,
@@ -193,12 +194,12 @@ internal class ConfigItemView(context: Context, private val item: ConfigItem) : 
                     }
 
                     v = spinner
-                    spinner
                 }
             }
             else -> {
-                v = EditText(context)
-                v.setText(item.value)
+                v = EditText(context).also {
+                    it.setText(item.value)
+                }
             }
         }
 

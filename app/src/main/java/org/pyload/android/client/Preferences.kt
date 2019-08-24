@@ -9,10 +9,9 @@ class Preferences : AppCompatPreferenceActivity() {
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.preferences)
 
-        val actionBar = supportActionBar
-        if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true)
-            actionBar.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.run {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
         }
     }
 

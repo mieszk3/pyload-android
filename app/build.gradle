@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.1"
+    buildToolsVersion "29.0.2"
 
     defaultConfig {
         applicationId "org.pyload.android.client"
@@ -30,7 +30,7 @@ android {
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
-    implementation 'org.slf4j:slf4j-android:1.7.26'
+    implementation 'org.slf4j:slf4j-android:1.7.28'
     implementation 'org.apache.thrift:libthrift:0.8.0' //DO NOT UPDATE THIS LIBRARY
     //noinspection GradleDependency
     implementation 'commons-codec:commons-codec:1.13'
