@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -9,8 +10,8 @@
         android:id="@+id/type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        tools:text="TextView" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,11 +25,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="fill_horizontal"
             android:layout_weight="1"
-            android:gravity="left"
+            android:gravity="start"
             android:text="@string/n_a"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/black" />
-
 
         <TextView
             android:id="@+id/valid"
@@ -36,11 +36,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="fill_horizontal"
             android:layout_weight="1"
-            android:gravity="right"
+            android:gravity="end"
             android:text="@string/n_a"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/black" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -54,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="fill_horizontal"
             android:layout_weight="1"
-            android:gravity="left"
+            android:gravity="start"
             android:text="@string/validuntil"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@android:color/black" />
@@ -65,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="fill_horizontal"
             android:layout_weight="1"
-            android:gravity="left"
+            android:gravity="start"
             android:text="@string/n_a"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@android:color/black" />
@@ -75,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="fill_horizontal"
             android:layout_weight="1"
-            android:gravity="right"
+            android:gravity="end"
             android:text="@string/trafficleft"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@android:color/black" />
@@ -86,11 +85,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="fill_horizontal"
             android:layout_weight="1"
-            android:gravity="right"
+            android:gravity="end"
             android:text="@string/n_a"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@android:color/black" />
 
     </LinearLayout>
-
 </LinearLayout>

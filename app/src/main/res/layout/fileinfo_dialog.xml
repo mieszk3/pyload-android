@@ -8,8 +8,8 @@
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dip"
-        android:layout_marginRight="15dip"
+        android:layout_marginStart="15dip"
+        android:layout_marginEnd="15dip"
         android:paddingBottom="15dip">
 
         <TextView
@@ -22,127 +22,125 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_toRightOf="@+id/labelName"
-            android:gravity="right"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/labelName"
+            android:gravity="end"
             android:text="@string/n_a" />
 
         <TextView
             android:id="@+id/labelPlugin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/plugin"
-            android:layout_toLeftOf="@+id/plugin"
+            android:layout_toStartOf="@+id/plugin"
             android:text="@string/plugin" />
 
         <TextView
             android:id="@+id/plugin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_below="@+id/name"
-            android:gravity="right"
+            android:gravity="end"
             android:text="@string/n_a" />
 
         <TextView
             android:id="@+id/labelStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/status"
-            android:layout_toLeftOf="@+id/status"
+            android:layout_toStartOf="@+id/status"
             android:text="@string/status" />
 
         <TextView
             android:id="@+id/status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_below="@+id/plugin"
-            android:gravity="right"
+            android:gravity="end"
             android:text="@string/n_a" />
 
         <TextView
             android:id="@+id/labelSize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/size"
-            android:layout_toLeftOf="@+id/size"
+            android:layout_toStartOf="@+id/size"
             android:text="@string/size" />
 
         <TextView
             android:id="@+id/size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_below="@+id/status"
-            android:gravity="right"
+            android:gravity="end"
             android:text="@string/n_a" />
 
         <TextView
             android:id="@+id/labelerror"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/error"
-            android:layout_toLeftOf="@+id/error"
+            android:layout_toStartOf="@+id/error"
             android:text="@string/error" />
 
         <TextView
             android:id="@+id/error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_below="@+id/size"
-            android:gravity="right"
+            android:gravity="end"
             android:text="@string/n_a" />
 
         <TextView
             android:id="@+id/labelPackage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/packageValue"
-            android:layout_toLeftOf="@+id/packageValue"
+            android:layout_toStartOf="@+id/packageValue"
             android:text="@string/labelPackage" />
 
         <TextView
             android:id="@+id/packageValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_below="@+id/error"
-            android:gravity="right"
+            android:gravity="end"
             android:text="@string/n_a" />
 
         <TextView
             android:id="@+id/labelFolder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/folder"
-            android:layout_toLeftOf="@+id/folder"
+            android:layout_toStartOf="@+id/folder"
             android:text="@string/folder" />
 
         <TextView
             android:id="@+id/folder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_below="@+id/packageValue"
-            android:gravity="right"
+            android:gravity="end"
             android:text="@string/n_a" />
 
     </RelativeLayout>
-    >
 
     <Button
+        style="?android:attr/buttonBarButtonStyle"
         android:id="@+id/close"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/close" />
-
-
 </LinearLayout>

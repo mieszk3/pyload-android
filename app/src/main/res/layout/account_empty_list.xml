@@ -13,5 +13,4 @@
         android:text="@string/no_accounts"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@android:color/black" />
-
 </LinearLayout>

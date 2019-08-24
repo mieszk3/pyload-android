@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    <TextView
         android:id="@+id/list_header_title"
         style="?android:attr/listSeparatorTextViewStyle"
         android:layout_width="match_parent"
@@ -15,6 +15,7 @@
         android:textColor="@android:color/black" />
 
     <LinearLayout
+        style="?android:attr/buttonBarStyle"
         android:id="@+id/buttonbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,6 +24,7 @@
         android:orientation="horizontal">
 
         <Button
+            style="?android:attr/buttonBarButtonStyle"
             android:id="@+id/button_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,6 +32,7 @@
             android:text="@string/submit" />
 
         <Button
+            style="?android:attr/buttonBarButtonStyle"
             android:id="@+id/button_cancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,6 +56,4 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" />
     </ScrollView>
-
-
 </RelativeLayout>

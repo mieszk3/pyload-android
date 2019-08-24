@@ -17,5 +17,4 @@
         android:gravity="center"
         android:text="@string/no_packages"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
 </LinearLayout>
