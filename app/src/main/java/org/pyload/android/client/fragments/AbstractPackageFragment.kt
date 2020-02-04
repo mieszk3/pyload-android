@@ -1,7 +1,6 @@
 package org.pyload.android.client.fragments
 
 import android.content.Context
-import android.graphics.ColorFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.*
