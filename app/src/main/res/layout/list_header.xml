@@ -6,5 +6,5 @@
     android:paddingTop="2dip"
     android:paddingBottom="2dip"
     android:paddingStart="5dip"
-    android:textColor="@android:color/black"
+    android:textColor="?android:attr/textColorPrimary"
     style="?android:attr/listSeparatorTextViewStyle" />

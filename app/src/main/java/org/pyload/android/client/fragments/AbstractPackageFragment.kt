@@ -1,5 +1,7 @@
 package org.pyload.android.client.fragments
 
+import android.content.Context
+import android.graphics.ColorFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -54,7 +56,7 @@ abstract class AbstractPackageFragment : ExpandableListFragment(), TabHandler {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         registerForContextMenu(view.findViewById(android.R.id.list))
-        val adp = PackageListAdapter(app, data,
+        val adp = PackageListAdapter(requireContext(), data,
                 R.layout.package_item, R.layout.package_child_item)
         setListAdapter(adp)
     }
@@ -264,9 +266,9 @@ abstract class AbstractPackageFragment : ExpandableListFragment(), TabHandler {
     }
 }
 
-internal class PackageListAdapter(app: pyLoadApp, private var data: List<PackageData>,
+internal class PackageListAdapter(context: Context, private var data: List<PackageData>,
                                   private val groupRes: Int, private val childRes: Int) : BaseExpandableListAdapter() {
-    private val layoutInflater: LayoutInflater = LayoutInflater.from(app)
+    private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
     fun setData(data: List<PackageData>) {
         this.data = data
@@ -306,10 +308,10 @@ internal class PackageListAdapter(app: pyLoadApp, private var data: List<Package
         val resultView = convertView ?: let {
             val view = layoutInflater.inflate(groupRes, null)
             val holder = GroupViewHolder(
-                    view.findViewById(R.id.name),
-                    view.findViewById(R.id.package_progress),
-                    view.findViewById(R.id.size_stats),
-                    view.findViewById(R.id.link_stats))
+                    name = view.findViewById(R.id.name),
+                    progress = view.findViewById(R.id.package_progress),
+                    size = view.findViewById(R.id.size_stats),
+                    links = view.findViewById(R.id.link_stats))
             view.tag = holder
             view
         }
@@ -336,11 +338,11 @@ internal class PackageListAdapter(app: pyLoadApp, private var data: List<Package
         val resultView = convertView ?: let {
             val view = layoutInflater.inflate(childRes, null)
             val holder = ChildViewHolder(
-                    view.findViewById(R.id.name),
-                    view.findViewById(R.id.status),
-                    view.findViewById(R.id.size),
-                    view.findViewById(R.id.plugin),
-                    view.findViewById(R.id.status_icon))
+                    name = view.findViewById(R.id.name),
+                    status = view.findViewById(R.id.status),
+                    size = view.findViewById(R.id.size),
+                    plugin = view.findViewById(R.id.plugin),
+                    status_icon = view.findViewById(R.id.status_icon))
             view.tag = holder
             view
         }
@@ -376,7 +378,6 @@ internal class PackageListAdapter(app: pyLoadApp, private var data: List<Package
         } else {
             holder.status_icon.setImageResource(0)
         }
-
         return resultView
     }
 

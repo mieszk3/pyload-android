@@ -12,5 +12,5 @@
         android:layout_marginTop="15dp"
         android:text="@string/no_accounts"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@android:color/black" />
+        android:textColor="?android:attr/textColorPrimary" />
 </LinearLayout>

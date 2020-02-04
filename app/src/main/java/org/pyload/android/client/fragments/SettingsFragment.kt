@@ -38,10 +38,10 @@ class SettingsFragment : ListFragment() {
         context?.run {
             app = applicationContext as pyLoadApp
 
-            adp = SeparatedListAdapter(app)
+            adp = SeparatedListAdapter(requireContext())
 
-            general = SettingsAdapter(app)
-            plugins = SettingsAdapter(app)
+            general = SettingsAdapter(requireContext())
+            plugins = SettingsAdapter(requireContext())
 
             adp.addSection(getString(R.string.general_config), general)
             adp.addSection(getString(R.string.plugin_config), plugins)

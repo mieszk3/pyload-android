@@ -173,7 +173,7 @@ class pyLoad : FragmentTabsPager() {
             AddLinksActivity.NEW_PACKAGE -> when (resultCode) {
                 Activity.RESULT_OK -> if (data != null) {
                     val name = data.getStringExtra("name")
-                    val link_array = (data.getStringExtra("links") ?: "").trim { it <= ' ' }
+                    val linkArray = (data.getStringExtra("links") ?: "").trim { it <= ' ' }
                             .split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                     val dest: Destination = if (data.getIntExtra("dest", 0) == 0) {
                         Destination.Queue
@@ -184,8 +184,8 @@ class pyLoad : FragmentTabsPager() {
                     val filename = data.getStringExtra("filename")
 
                     val links = ArrayList<String>()
-                    for (link_row in link_array)
-                        for (link in link_row.trim { it <= ' ' }.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray())
+                    for (linkRow in linkArray)
+                        for (link in linkRow.trim { it <= ' ' }.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray())
                             if (link != "")
                                 links.add(link)
 

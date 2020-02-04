@@ -28,7 +28,7 @@
             android:gravity="start"
             android:text="@string/n_a"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black" />
+            android:textColor="?android:attr/textColorPrimary" />
 
         <TextView
             android:id="@+id/valid"
@@ -39,7 +39,7 @@
             android:gravity="end"
             android:text="@string/n_a"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black" />
+            android:textColor="?android:attr/textColorPrimary" />
     </LinearLayout>
 
     <LinearLayout
@@ -56,7 +56,7 @@
             android:gravity="start"
             android:text="@string/validuntil"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/black" />
+            android:textColor="?android:attr/textColorPrimary" />
 
         <TextView
             android:id="@+id/validuntil"
@@ -67,7 +67,7 @@
             android:gravity="start"
             android:text="@string/n_a"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/black" />
+            android:textColor="?android:attr/textColorPrimary" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -77,7 +77,7 @@
             android:gravity="end"
             android:text="@string/trafficleft"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/black" />
+            android:textColor="?android:attr/textColorPrimary" />
 
         <TextView
             android:id="@+id/trafficleft"
@@ -88,7 +88,7 @@
             android:gravity="end"
             android:text="@string/n_a"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/black" />
+            android:textColor="?android:attr/textColorPrimary" />
 
     </LinearLayout>
 </LinearLayout>

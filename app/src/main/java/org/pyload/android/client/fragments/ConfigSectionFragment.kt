@@ -1,11 +1,11 @@
 package org.pyload.android.client.fragments
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -149,7 +149,9 @@ internal class ConfigItemView(context: Context, private val item: ConfigItem) : 
         if (item.type != "bool") {
             val tv = TextView(context)
             tv.text = item.description
-            tv.setTextColor(Color.WHITE)
+            val textColor = TypedValue()
+            tv.context.theme.resolveAttribute(android.R.attr.textColorPrimary, textColor, true);
+            tv.setTextColor(textColor.data)
             tv.textSize = 16f
             tv.setPadding(2, 0, 0, 0)
             addView(tv)

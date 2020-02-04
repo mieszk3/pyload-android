@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="pyLoadTheme" parent="Theme.MaterialComponents.Light.DarkActionBar.Bridge" />
+    <style name="pyLoadTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar.Bridge" />
 </resources>

@@ -4,27 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <org.pyload.android.client.components.ScrollingTextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ellipsize="marquee"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:scrollHorizontally="true"
-        android:singleLine="true"
-        android:text="@string/n_a"
-        android:textAppearance="?android:attr/textAppearance"
-        android:textColor="@android:color/black" />
-
-    <ProgressBar
-        android:id="@+id/progress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="100"
-        android:paddingBottom="2dip"
-        android:paddingTop="2dip" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,7 +18,7 @@
             android:layout_weight="1"
             android:gravity="start"
             android:text="@string/n_a"
-            android:textColor="@android:color/black" />
+            android:textColor="?android:attr/textColorPrimary" />
 
         <TextView
             android:id="@+id/percent"
@@ -49,7 +28,7 @@
             android:layout_weight="1"
             android:gravity="end"
             android:text="@string/n_a"
-            android:textColor="@android:color/black" />
+            android:textColor="?android:attr/textColorPrimary" />
 
 
         <TextView
@@ -60,7 +39,7 @@
             android:layout_weight="1"
             android:gravity="end"
             android:text="@string/n_a"
-            android:textColor="@android:color/black" />
+            android:textColor="?android:attr/textColorPrimary" />
     </LinearLayout>
 
     <LinearLayout
@@ -76,7 +55,7 @@
             android:layout_gravity="fill_horizontal"
             android:layout_weight="1"
             android:gravity="start"
-            android:textColor="@android:color/black" />
+            android:textColor="?android:attr/textColorPrimary" />
 
         <TextView
             android:id="@+id/eta"
@@ -85,6 +64,27 @@
             android:layout_gravity="fill_horizontal"
             android:layout_weight="1"
             android:gravity="end"
-            android:textColor="@android:color/black" />
+            android:textColor="?android:attr/textColorPrimary" />
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:paddingTop="2dip"
+        android:paddingBottom="2dip" />
+
+    <org.pyload.android.client.components.ScrollingTextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:text="@string/n_a"
+        android:textAppearance="?android:attr/textAppearance"
+        android:textColor="?android:attr/textColorPrimary" />
 </LinearLayout>

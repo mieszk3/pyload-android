@@ -307,13 +307,13 @@ internal class OverviewAdapter(context: Context, private val rowResID: Int,
         val resultView = convertView ?: let {
             val view = layoutInflater.inflate(rowResID, null)
             val holder = ViewHolder(
-                    view.findViewById(R.id.name),
-                    view.findViewById(R.id.progress),
-                    view.findViewById(R.id.size),
-                    view.findViewById(R.id.speed),
-                    view.findViewById(R.id.size_done),
-                    view.findViewById(R.id.eta),
-                    view.findViewById(R.id.percent))
+                    name = view.findViewById(R.id.name),
+                    progress = view.findViewById(R.id.progress),
+                    size = view.findViewById(R.id.size),
+                    speed = view.findViewById(R.id.speed),
+                    size_done = view.findViewById(R.id.size_done),
+                    eta = view.findViewById(R.id.eta),
+                    percent = view.findViewById(R.id.percent))
             view.tag = holder
             view
         }

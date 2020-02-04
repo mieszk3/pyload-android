@@ -4,19 +4,12 @@ import android.content.Context
 import android.graphics.Rect
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.content.ContextCompat
 
-class ScrollingTextView : AppCompatTextView {
-
-    constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) {
-        val white = ContextCompat.getColor(getContext(), android.R.color.white)
-        setTextColor(white)
-    }
-
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-
-    constructor(context: Context) : super(context)
-
+class ScrollingTextView @JvmOverloads constructor(
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyle: Int = android.R.attr.textViewStyle
+) : AppCompatTextView(context, attrs, defStyle) {
     override fun onFocusChanged(focused: Boolean, direction: Int,
                                 previouslyFocusedRect: Rect?) {
         if (focused) {

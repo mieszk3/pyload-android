@@ -28,6 +28,7 @@
                 android:layout_height="match_parent"
                 android:drawableStart="@drawable/clock"
                 android:drawablePadding="5dip"
+                android:drawableTint="?android:attr/textColorPrimary"
                 tools:text="@string/n_a" />
         </LinearLayout>
 
@@ -44,6 +45,7 @@
                 android:layout_height="match_parent"
                 android:drawableStart="@drawable/redo"
                 android:drawablePadding="5dip"
+                android:drawableTint="?android:attr/textColorPrimary"
                 tools:text="@string/n_a" />
         </LinearLayout>
 
@@ -60,6 +62,7 @@
                 android:layout_height="match_parent"
                 android:drawableStart="@drawable/download"
                 android:drawablePadding="5dip"
+                android:drawableTint="?android:attr/textColorPrimary"
                 tools:text="@string/n_a" />
         </LinearLayout>
 
@@ -76,6 +79,7 @@
                 android:layout_height="match_parent"
                 android:drawableStart="@drawable/todo"
                 android:drawablePadding="5dip"
+                android:drawableTint="?android:attr/textColorPrimary"
                 tools:text="0 / 0" />
         </LinearLayout>
     </LinearLayout>

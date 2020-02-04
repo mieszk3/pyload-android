@@ -5,8 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.DialogFragment
-import kotlinx.android.synthetic.main.fileinfo_dialog.*
 import org.pyload.android.client.R
 import org.pyload.thrift.FileData
 import org.pyload.thrift.PackageData
@@ -25,14 +26,14 @@ class FileInfoDialog : DialogFragment() {
                               savedInstanceState: Bundle?): View? {
         val dialog = inflater.inflate(R.layout.fileinfo_dialog, container, false)
 
-        name.text = file.name
-        status.text = file.statusmsg
-        plugin.text = file.plugin
-        size.text = file.format_size
-        error.text = file.error
-        packageValue.text = pack.name
-        folder.text = pack.folder
-        close.setOnClickListener { dismiss() }
+        dialog.findViewById<TextView>(R.id.name).text = file.name
+        dialog.findViewById<TextView>(R.id.status).text = file.statusmsg
+        dialog.findViewById<TextView>(R.id.plugin).text = file.plugin
+        dialog.findViewById<TextView>(R.id.size).text = file.format_size
+        dialog.findViewById<TextView>(R.id.error).text = file.error
+        dialog.findViewById<TextView>(R.id.packageValue).text = pack.name
+        dialog.findViewById<TextView>(R.id.folder).text = pack.folder
+        dialog.findViewById<Button>(R.id.close).setOnClickListener { dismiss() }
 
         return dialog
     }
