@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import org.pyload.android.client.module.FileChooser
+import org.pyload.android.client.utils.NavigationUtil
 
 class AddLinksActivity : AppCompatActivity() {
     private var filename = "uploaded_from_android.dlc"
@@ -28,7 +29,7 @@ class AddLinksActivity : AppCompatActivity() {
         when (item.itemId) {
             android.R.id.home -> {
                 setResult(Activity.RESULT_CANCELED)
-                finish()
+                NavigationUtil.navigateUp(this)
             }
         }
         return true
