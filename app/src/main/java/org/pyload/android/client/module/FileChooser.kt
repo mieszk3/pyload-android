@@ -15,6 +15,7 @@ import android.widget.ListView
 import android.widget.TextView
 import org.pyload.android.client.R
 import java.io.File
+import java.util.Locale
 
 class FileChooser : ListActivity() {
     private lateinit var currentDir: File
@@ -94,7 +95,7 @@ class FileChooser : ListActivity() {
 internal class Option(val name: String, val data: String, val path: String) : Comparable<Option> {
 
     override fun compareTo(other: Option): Int {
-        return name.toLowerCase().compareTo(other.name.toLowerCase())
+        return name.toLowerCase(Locale.ROOT).compareTo(other.name.toLowerCase(Locale.ROOT))
     }
 }
 
