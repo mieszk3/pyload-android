@@ -61,10 +61,10 @@ class OverviewFragment : ListFragment(), OnDismissListener, TabHandler {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        app = activity!!.applicationContext as pyLoadApp
+        app = requireContext().applicationContext as pyLoadApp
 
         downloads = ArrayList()
-        adp = OverviewAdapter(app, R.layout.overview_item, downloads)
+        adp = OverviewAdapter(requireContext(), R.layout.overview_item, downloads)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -328,8 +328,8 @@ internal class OverviewAdapter(context: Context, private val rowResID: Int,
 
         holder.progress.progress = info.percent.toInt()
 
-        when {
-            info.status == DownloadStatus.Downloading -> {
+        when (info.status) {
+            DownloadStatus.Downloading -> {
                 holder.size.text = Utils.formatSize(info.size)
                 holder.percent.text = "${info.percent}%"
                 holder.size_done.text = Utils.formatSize(info.size - info.bleft)
@@ -338,7 +338,7 @@ internal class OverviewAdapter(context: Context, private val rowResID: Int,
                 holder.eta.text = info.format_eta
 
             }
-            info.status == DownloadStatus.Waiting -> {
+            DownloadStatus.Waiting -> {
                 holder.size.setText(R.string.lambda)
                 holder.percent.setText(R.string.lambda)
                 holder.size_done.setText(R.string.lambda)

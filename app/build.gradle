@@ -35,10 +35,10 @@ android {
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'org.slf4j:slf4j-android:1.7.29'
+    implementation 'org.slf4j:slf4j-android:1.7.30'
     implementation 'org.apache.thrift:libthrift:0.8.0' //DO NOT UPDATE THIS LIBRARY
     //noinspection GradleDependency
-    implementation 'commons-codec:commons-codec:1.13'
+    implementation 'commons-codec:commons-codec:1.14'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation 'com.google.android.material:material:1.2.0-alpha05'
 }

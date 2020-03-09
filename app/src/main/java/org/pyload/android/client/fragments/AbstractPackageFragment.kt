@@ -209,18 +209,15 @@ abstract class AbstractPackageFragment : ExpandableListFragment(), TabHandler {
 
     override fun onCreateContextMenu(menu: ContextMenu, v: View,
                                      menuInfo: ContextMenuInfo?) {
-        val activity = activity
-        if (activity != null) {
-            val inflater = activity.menuInflater
+        activity?.menuInflater?.let { inflater ->
             inflater.inflate(R.menu.package_context_menu, menu)
             menu.setHeaderTitle(R.string.choose_action)
         }
     }
 
     override fun onSelected() {
-        val activity = activity
-        if (activity != null) {
-            app = activity.applicationContext as pyLoadApp
+        activity?.let {
+            app = it.applicationContext as pyLoadApp
             refresh()
         }
     }
@@ -232,8 +229,9 @@ abstract class AbstractPackageFragment : ExpandableListFragment(), TabHandler {
     }
 
     fun refresh() {
-        if (!app.hasConnection())
+        if (!app.hasConnection()) {
             return
+        }
 
         app.setProgress(true)
 
@@ -260,7 +258,7 @@ abstract class AbstractPackageFragment : ExpandableListFragment(), TabHandler {
             pak.links?.sortWith(mOrderComparator)
         }
 
-        val adapter = expandableListAdapter as PackageListAdapter?
+        val adapter = expandableListAdapter as? PackageListAdapter
         adapter?.setData(data)
     }
 }
