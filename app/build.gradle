@@ -10,6 +10,8 @@ android {
         applicationId "org.pyload.android.client"
         minSdkVersion 28
         targetSdkVersion 29
+
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
@@ -40,7 +42,7 @@ dependencies {
     //noinspection GradleDependency
     implementation 'commons-codec:commons-codec:1.14'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation 'com.google.android.material:material:1.2.0-alpha05'
+    implementation 'com.google.android.material:material:1.2.0-alpha06'
 }
 repositories {
     mavenCentral()
