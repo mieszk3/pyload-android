@@ -88,7 +88,7 @@ class SettingsFragment : ListFragment() {
     override fun onListItemClick(l: ListView, v: View, position: Int, id: Long) {
         super.onListItemClick(l, v, position, id)
         fragmentManager?.run {
-            val item = adp.getItem(position) as? Entry<String, ConfigSection>
+            @Suppress("UNCHECKED_CAST") val item = adp.getItem(position) as? Entry<String, ConfigSection>
 
             val ft = beginTransaction()
 

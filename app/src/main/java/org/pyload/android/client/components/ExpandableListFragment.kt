@@ -3,6 +3,7 @@ package org.pyload.android.client.components
 
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.*
 import android.view.ContextMenu.ContextMenuInfo
 import android.view.View.OnCreateContextMenuListener
@@ -11,7 +12,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 
 open class ExpandableListFragment : Fragment(), OnCreateContextMenuListener, ExpandableListView.OnChildClickListener, ExpandableListView.OnGroupCollapseListener, ExpandableListView.OnGroupExpandListener {
-    private val mHandler = Handler()
+    private val mHandler = Handler(requireNotNull(Looper.myLooper()))
     private val mRequestFocus = Runnable { mList?.focusableViewAvailable(mList) }
 
     /**

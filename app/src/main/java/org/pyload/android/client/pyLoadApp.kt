@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -50,7 +51,7 @@ class pyLoadApp : Application() {
         map[TTransportException()] = handleException
         map[WrongServer()] = handleException
 
-        taskQueue = TaskQueue(this, Handler(), map)
+        taskQueue = TaskQueue(this, Handler(requireNotNull(Looper.myLooper())), map)
         startTaskQueue()
     }
 

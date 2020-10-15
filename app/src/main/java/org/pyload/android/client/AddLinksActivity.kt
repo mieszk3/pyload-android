@@ -64,7 +64,7 @@ class AddLinksActivity : AppCompatActivity() {
 
     }
 
-    fun addPackage(button: View?) {
+    fun addPackage(@Suppress("UNUSED_PARAMETER") button: View?) {
 
         val data = Intent()
 
@@ -90,12 +90,12 @@ class AddLinksActivity : AppCompatActivity() {
         finish()
     }
 
-    fun onCancel(button: View?) {
+    fun onCancel(@Suppress("UNUSED_PARAMETER") button: View?) {
         setResult(Activity.RESULT_CANCELED)
         finish()
     }
 
-    fun pickFile(button: View?) {
+    fun pickFile(@Suppress("UNUSED_PARAMETER") button: View?) {
         val intent = Intent().setClass(this, FileChooser::class.java)
         startActivityForResult(intent, FileChooser.CHOOSE_FILE)
     }

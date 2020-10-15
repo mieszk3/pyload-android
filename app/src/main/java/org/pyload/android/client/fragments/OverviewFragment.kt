@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.content.DialogInterface.OnDismissListener
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.*
 import android.view.ContextMenu.ContextMenuInfo
@@ -28,7 +29,7 @@ import org.pyload.thrift.ServerStatus
 
 class OverviewFragment : ListFragment(), OnDismissListener, TabHandler {
 
-    private val mHandler = Handler()
+    private val mHandler = Handler(requireNotNull(Looper.myLooper()))
     private lateinit var app: pyLoadApp
     private lateinit var adp: OverviewAdapter
     private var downloads: List<DownloadInfo> = emptyList()
